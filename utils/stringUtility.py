@@ -1,10 +1,27 @@
 class stringUtility:
     def indent_string(string, indent=4):
-        """Indents a string by a specified number of spaces."""
+        """
+        Indents a string by a specified number of spaces.
+        Args:
+            string (str): The string to indent.
+            indent (int): The number of spaces to indent the string.
+        Returns:
+            str: The indented string.
+        """
         return ' ' * indent + string
     
     def split_string(string, max_length=50):
-        """Splits a string into lines of a specified maximum length."""
+        """
+        Splits a string into lines of a specified maximum length.
+        If the string is shorter than max_length, it returns the string as a single line.
+        The function ensures that words are not split in the middle.
+        If a word is longer than max_length, it will be split into multiple lines.
+        Args:
+            string (str): The string to split.
+            max_length (int): The maximum length of each line.
+        Returns:
+            list: A list of strings, each no longer than max_length.
+        """
         if len(string) <= max_length:
             return [string]
         
@@ -28,23 +45,53 @@ class stringUtility:
     
     
     def add_pipes(string):
-        """Adds a pipe character at the end of each line."""
+        """Adds a pipe character at the end of each line.
+        Args:
+            string (str): The string to add pipes to.
+        Returns:
+            str: The string with pipes added at the start and end."""
         return ("|" +string+"|")
     
+
     def add_spaces(string, length=50):
-        """Adds spaces to a string to ensure it has a specified length."""
+        """Adds spaces to a string to ensure it has a specified length.
+        Args:
+            string (str): The string to add spaces to.
+            length (int): The desired length of the string.
+        Returns:
+            str: The string padded with spaces to the specified length.
+            """
         return string.ljust(length)
     
     def add_space_at_end(string, length=50):
-        """Adds spaces to the end of a string to ensure it has a specified length."""
+        """Adds spaces to the end of a string to ensure it has a specified length.
+        Args:
+            string (str): The string to add spaces to.
+            length (int): The desired length of the string.
+        Returns:
+            str: The string padded with spaces to the specified length.
+            """
         return string.rjust(length, ' ')
     
     def add_space_to_center(string, length=50):
-        """Adds spaces to the end of a string to ensure it has a specified length."""
+        """Adds spaces to the end of a string to ensure it has a specified length.
+        Args:
+            string (str): The string to add spaces to.
+            length (int): The desired length of the string.
+        Returns:
+            str: The string padded with spaces to the specified length, centered.
+            
+        """
         return string.center(length, ' ')
     
     def piped_separator(separator="-", length=50):
-        """Returns a separator line with pipes. it will be 2 characters longer than the length parameter due to the add of pipes"""
+        """Returns a separator line with pipes. it will be 2 characters longer than the length parameter due to the add of pipes
+        Args:
+            separator (str): The character to use for the separator. Default is "-".
+            length (int): The length of the separator line.
+        Returns:
+            str: The separator line with pipes at the start and end.
+        """
         return "|" + separator * (length) + "|"
 
 
@@ -58,6 +105,7 @@ class stringUtility:
             indent (int): The number of spaces to indent each line. (default is 2)
             dedent (int): The number of spaces to remove from the start of each line. (default is 2)
             join (bool): If True, joins the lines with newlines. If False, returns a list of lines.
+            Just (int): Justification type: 0 for left, 1 for right, 2 for center. (default is 0)
         Returns:
             str: The formatted string with lines split, indented, and piped.
         """
