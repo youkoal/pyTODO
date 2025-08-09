@@ -1,5 +1,8 @@
 import sys
-sys.path.append(r'd:\Codes')
+import os
+
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.append(parent_dir)
 
 from pyTODO.utils.stringUtility import stringUtility
 from pyTODO.Models.one_task import one_task
@@ -35,6 +38,7 @@ class taskbox:
         task.set_index(len(self.__tasks_todo))
         self.__tasks_todo.append(task)
 
+    #todo : decrement index of all tasks after the removed task 
     def check_task(self, task):
         """Marks a task as completed and moves it to the done list."""
         task.trigger()
@@ -69,6 +73,10 @@ class taskbox:
     def __repr__(self):
         return f"TaskBox({self.__title}, Todo: {len(self.__tasks_todo)}, Done: {len(self.__tasks_done)})"
     
+
+
+
+
     def get_console(self, length=60, metadata=False):
         """ Returns a formatted array representation of the task box for console output. """
         lines = []
