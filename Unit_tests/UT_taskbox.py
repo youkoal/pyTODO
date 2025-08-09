@@ -19,6 +19,24 @@ a_taskbox.add_new_task(a_task)
 a_taskbox.add_new_task(a_second_task)
 a_taskbox.add_new_task(a_third_task)
 
-a_taskbox.check_task(a_second_task)
 
+print("Initial Task Box with second task checked:")
+a_taskbox.check_task(a_second_task)
+a_taskbox.print_console()  # Should print the task box details with tasks
+
+
+print("Initial Task Box with NO task checked:")
+a_taskbox.uncheck_task(a_second_task)
+a_taskbox.print_console()  # Should print the task box details with tasks
+
+
+print("Initial Task Box with first and second task checked:")
+a_taskbox.check_task(a_task)
+a_taskbox.check_task(a_second_task)
+a_taskbox.print_console()  # Should print the task box details with tasks
+
+
+print("Initial Task Box with ALL checked:")
+a_taskbox.set_title("Finished Task Box")
+a_taskbox.check_task(a_third_task)
 a_taskbox.print_console()  # Should print the task box details with tasks

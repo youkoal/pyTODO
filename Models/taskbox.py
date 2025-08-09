@@ -38,23 +38,29 @@ class taskbox:
         task.set_index(len(self.__tasks_todo))
         self.__tasks_todo.append(task)
 
-    #todo : decrement index of all tasks after the removed task 
+    
+    def _move_task_between_lists(self, task, src_list, dst_list):
+        """Helper to move a task between lists and update indices."""
+        task.trigger()
+        current_index = task.get_index()
+        src_list.pop(current_index)
+        for i in range(current_index, len(src_list)):
+            src_list[i].set_index(src_list[i].get_index() - 1)
+        task.set_index(len(dst_list))
+        dst_list.append(task)
+
     def check_task(self, task):
         """Marks a task as completed and moves it to the done list."""
-        task.trigger()
-        self.__tasks_todo.pop(task.get_index())
-
-        task.set_index(len(self.__tasks_done))
-        self.__tasks_done.append(task)
+        self._move_task_between_lists(task, self.__tasks_todo, self.__tasks_done)
 
     def uncheck_task(self, task):
         """Marks a task as not completed and moves it back to the todo list."""
-        task.trigger()
-        self.__tasks_done.pop(task.get_index())
+        self._move_task_between_lists(task, self.__tasks_done, self.__tasks_todo)
 
-        task.set_index(len(self.__tasks_todo))
-        self.__tasks_todo.append(task)
-    
+
+
+
+
 
     def set_title(self, title):
         self.__title = title
