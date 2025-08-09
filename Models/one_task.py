@@ -74,3 +74,13 @@ class one_task:
         lines.append (stringUtility.format_string(f"{self.task_description}",length,6,6))
         lines.append (stringUtility.piped_separator("=",length))
         return lines
+    
+    def to_json(self):
+        """Converts the task to a JSON serializable dictionary."""
+        return {
+            "task_name": self.task_name,
+            "task_description": self.task_description,
+            "task_id": self.task_id,
+            "task_status": self.task_status,
+            "index": self.index
+        }

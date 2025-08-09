@@ -5,6 +5,7 @@ parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(parent_dir)
 
 from pyTODO.utils.stringUtility import stringUtility
+from pyTODO.utils.jsonUtility import JsonUtility
 from pyTODO.Models.one_task import one_task
 
 class taskbox:
@@ -125,11 +126,26 @@ class taskbox:
             lines[i] = stringUtility.add_spaces(lines[i], length)     
             lines[i] = lines[i].center(content_length, ' ')       
             lines[i] = stringUtility.add_pipes(lines[i])
-
-            
         return lines
 
     def print_console(self):
         """Prints the task box details in a formatted console output."""
         for line in self.get_console():
             print(line)
+
+    def to_json(self):
+        """Converts the task box to a JSON serializable dictionary."""
+        return {
+            "title": self.__title,
+            "tasks_todo": [task.to_json() for task in self.__tasks_todo],
+            "tasks_done": [task.to_json() for task in self.__tasks_done]
+        }
+    
+    def save_json(self):
+        """Saves the task box to a JSON file."""
+        complete_save_file_path = JsonUtility.get_save_directory()
+        if complete_save_file_path:
+            JsonUtility.save_json(self.to_json(), complete_save_file_path)
+        else:
+            print("Error: Could not save task box. Save directory is not set.")
+    

@@ -1,0 +1,35 @@
+{
+    "title": "My Task Box",
+    "tasks_todo": [
+        {
+            "task_name": "Third Task",
+            "task_description": "This is yet another test task",
+            "task_id": -1,
+            "task_status": true,
+            "index": 0
+        }
+    ],
+    "tasks_done": [
+        {
+            "task_name": "Test Task",
+            "task_description": "This is a test task",
+            "task_id": -1,
+            "task_status": false,
+            "index": 0
+        },
+        {
+            "task_name": "Second Task",
+            "task_description": "This is another test task",
+            "task_id": -1,
+            "task_status": false,
+            "index": 1
+        },
+        {
+            "task_name": "a task",
+            "task_description": "Just for guigui",
+            "task_id": -1,
+            "task_status": false,
+            "index": 2
+        }
+    ]
+}
