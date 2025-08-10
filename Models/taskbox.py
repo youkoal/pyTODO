@@ -109,6 +109,8 @@ class taskbox:
         lines.append(stringUtility.piped_separator("■", length))
         return lines
     
+
+
     def get_console_extended(self, task, length=54, content_length =54, metadata=False):
         """ 
         Returns a formatted array representation of the task box for console output with extended space for task details. and centered "boxes"
@@ -123,9 +125,10 @@ class taskbox:
         
         lines = task.get_console(length, metadata)
         for i in range(len(lines)):
-            lines[i] = stringUtility.add_spaces(lines[i], length)     
-            lines[i] = lines[i].center(content_length, ' ')       
-            lines[i] = stringUtility.add_pipes(lines[i])
+            lines[i] = stringUtility.format_string(lines[i], content_length, 1, 1, 1, 2)
+            # lines[i] = stringUtility.add_spaces(lines[i], length)     
+            # lines[i] = lines[i].center(content_length, ' ')       
+            # lines[i] = stringUtility.add_pipes(lines[i])
         return lines
 
     def print_console(self):
@@ -148,4 +151,28 @@ class taskbox:
             JsonUtility.save_json(self.to_json(), complete_save_file_path)
         else:
             print("Error: Could not save task box. Save directory is not set.")
+
+    def get_saved_json(self):
+        """Loads the task box from a JSON file."""
+        complete_save_file_path = JsonUtility.get_save_directory()
+        if complete_save_file_path:
+            return JsonUtility.load_json(complete_save_file_path)
+        else:
+            print("Error: Could not load task box. Save directory is not set.")
+            return None
+
+    def load_json(self, json_data=None):
+        """Loads the task box from a JSON serializable dictionary."""
+        if json_data is None:
+            json_data = self.get_saved_json()
+
+        self.__title = json_data.get("title", "New task Box")
+        self.__tasks_todo = [one_task.from_json(task) for task in json_data.get("tasks_todo", [])]
+        self.__tasks_done = [one_task.from_json(task) for task in json_data.get("tasks_done", [])]
+        
+        # Update indices after loading tasks
+        for i, task in enumerate(self.__tasks_todo):
+            task.set_index(i)
+        for i, task in enumerate(self.__tasks_done):
+            task.set_index(i)
     

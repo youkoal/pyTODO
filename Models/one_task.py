@@ -65,13 +65,13 @@ class one_task:
         """
         lines = []
         checked = "✔" if self.task_status else "✘"
-
         lines.append(stringUtility.piped_separator("=",length))
+
         if metadata:
              lines.append (stringUtility.format_string(f"Task ID : {self.task_id}    checked : {self.task_status}"))
              lines.append (stringUtility.piped_separator("-",length))
-        lines.append (stringUtility.format_string(f"{checked} {self.task_name}"))
-        lines.append (stringUtility.format_string(f"{self.task_description}",length,6,6))
+        lines.extend (stringUtility.format_string(f"{checked} {self.task_name}",length, 1, 1, False))
+        lines.extend (stringUtility.format_string(f"{self.task_description}",length,3,3,False))
         lines.append (stringUtility.piped_separator("=",length))
         return lines
     
@@ -84,3 +84,11 @@ class one_task:
             "task_status": self.task_status,
             "index": self.index
         }
+    
+    def from_json(json_data):
+        """Creates a task instance from a JSON serializable dictionary."""
+        task = one_task(json_data['task_name'], json_data['task_description'])
+        task.task_id = json_data['task_id']
+        task.task_status = json_data['task_status']
+        task.index = json_data['index']
+        return task

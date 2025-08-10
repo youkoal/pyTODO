@@ -11,7 +11,7 @@ from pyTODO.Models.taskbox import taskbox
 
 a_task = one_task("Test Task", "This is a test task") 
 a_second_task = one_task("Second Task", "This is another test task")
-a_third_task = one_task("Third Task", "This is yet another test task")  
+a_third_task = one_task("Third Task", "This is yet another test task with a verry long description that should be truncated in the console output")  
 a_fourth_task = one_task("a task", "Just for guigui")  
 
 a_taskbox = taskbox()
