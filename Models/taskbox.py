@@ -1,12 +1,11 @@
 import sys
 import os
-
 parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(parent_dir)
 
-from pyTODO.utils.stringUtility import stringUtility
-from pyTODO.utils.jsonUtility import JsonUtility
-from pyTODO.Models.one_task import one_task
+from utils.stringUtility import stringUtility
+from utils.jsonUtility import JsonUtility
+from Models.one_task import one_task
 
 class taskbox:
     """A class to represent a task box containing tasks.

@@ -1,10 +1,10 @@
 import sys
 import os
 
-parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(parent_dir)
 
-from pyTODO.utils.stringUtility import stringUtility
+from utils.stringUtility import stringUtility
 
 
 a_string = "Example string to demonstrate the utility function.  This will be split into multiple lines if it exceeds the specified length."
