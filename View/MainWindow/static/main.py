@@ -13,6 +13,9 @@ from PySide6.QtWidgets import QApplication, QMainWindow, QWidget
 from ui.task_ui import UI_Taskform
 from ui.main_ui import Ui_MainWindow
 
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.append(parent_dir)
+
 #La classe FenetrePrincipale est la fenetre principale de l'application
 
 
@@ -34,7 +37,7 @@ class MainWindow(QMainWindow):
         self.init_ui()
 
 
-        self.task_file_path = os.path.join(os.getcwd(), "View/MainWindow/static/task.json")
+        self.task_file_path = os.path.abspath(os.path.join(os.path.dirname(__file__),"task.json"))
         self.task_list = self.get_task()
         self.show_task(self.task_list)
 

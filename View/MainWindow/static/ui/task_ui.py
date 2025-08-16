@@ -1,5 +1,8 @@
-import sys
+import sys,os
 from PySide6 import QtCore, QtWidgets, QtGui
+
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.append(parent_dir)
 
 class UI_Taskform(QtWidgets.QWidget) :
     
@@ -49,7 +52,7 @@ class UI_Taskform(QtWidgets.QWidget) :
         self.setGeometry(0,0, 1000, 100) # x, y , largeur, hauteur
 
         # Chargement et application du CSS à partir d'un fichier
-        with open("./View/MainWindow/static/style.qss", "r") as style_file:
+        with open(os.path.join(parent_dir, "style.qss"), "r") as style_file:
             style_str = style_file.read()
             self.setStyleSheet(style_str)
 
@@ -68,7 +71,7 @@ class UI_Taskform(QtWidgets.QWidget) :
 
         #Ajout Bouton pour retirer la tache
         self.remove_btn = QtWidgets.QPushButton(self.task_widget)
-        self.remove_btn.setIcon(QtGui.QIcon("./View/MainWindow/static/icons/bouton.svg"))
+        self.remove_btn.setIcon(QtGui.QIcon(os.path.join(parent_dir, "icons/bouton.svg")))
         self.remove_btn.setIconSize(QtCore.QSize(20,20))
         self.horizontalLayout.addWidget(self.remove_btn)
 

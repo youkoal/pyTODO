@@ -3,12 +3,15 @@ import os
 import json
 from PySide6 import QtCore, QtGui, QtWidgets
 
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.append(parent_dir)
+
 class Ui_MainWindow(object):
 
     def setupUI(self, MainWindow):
 
         #Charge et applique les style CSS a la fenetre principale
-        with open("./View/MainWindow/static/style.qss", "r") as style_file:
+        with open(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', "style.qss")), "r") as style_file:
             style_str = style_file.read()
             MainWindow.setStyleSheet(style_str)
 
@@ -21,7 +24,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle("To Do List")
 
         #Parametrage des icones de la fenetre principale
-        window_icon = QtGui.QIcon("./View/MainWindow/static/icons/list.svg")
+        window_icon = QtGui.QIcon(os.path.join(parent_dir, "icons/list.svg"))
         MainWindow.setWindowIcon(window_icon)
 
         # Creer et parametre le widget central de la fenetre
@@ -50,7 +53,7 @@ class Ui_MainWindow(object):
         self.icon_label = QtWidgets.QLabel(parent=self.title_frame)
         self.icon_label.setMinimumSize(QtCore.QSize(40,40))
         self.icon_label.setMaximumSize(QtCore.QSize(40,40))
-        self.icon_label.setPixmap(QtGui.QPixmap("./View/MainWindow/static/icons/list.svg"))
+        self.icon_label.setPixmap(QtGui.QPixmap(os.path.join(parent_dir, "icons/list.svg")))
         self.icon_label.setScaledContents(True)
         self.icon_label.setObjectName("icone_label")
 
@@ -112,7 +115,7 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setBold(True)
         self.add_btn.setFont(font)
-        self.add_btn.setIcon(QtGui.QIcon("./View/MainWindow/static/icons/add.svg"))
+        self.add_btn.setIcon(QtGui.QIcon(os.path.join(parent_dir, "icons/add.svg")))
         self.add_btn.setIconSize(QtCore.QSize(30,30))
         self.add_btn.setObjectName("Bouton_Ajout")
 
