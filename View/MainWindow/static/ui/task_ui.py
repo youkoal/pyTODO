@@ -1,5 +1,5 @@
 import sys,os
-from PySide6 import QtCore, QtWidgets, QtGui
+from PyQt6 import QtCore, QtWidgets, QtGui
 
 parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(parent_dir)
@@ -9,7 +9,7 @@ class UI_Taskform(QtWidgets.QWidget) :
 
     #Signal pour indiquer si le bouton de tache à été cliqué
     #Un parametre entier est utilisé
-    closeClicked = QtCore.Signal(int)
+    closeClicked = QtCore.pyqtSignal(int)
 
 
     #Style CSS pour les taches vérifié et non vérifié

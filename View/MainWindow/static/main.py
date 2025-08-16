@@ -6,9 +6,9 @@ import json
 
 #Import des composants de Pyside pour construire l'application
 
-from PySide6.QtCore import QSize, Signal, Qt
-from PySide6.QtGui import QStandardItemModel,QStandardItem,QIcon
-from PySide6.QtWidgets import QApplication, QMainWindow, QWidget
+from PyQt6.QtCore import QSize, pyqtSignal, Qt
+from PyQt6.QtGui import QStandardItemModel, QStandardItem, QIcon
+from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget
 
 from ui.task_ui import UI_Taskform
 from ui.main_ui import Ui_MainWindow
