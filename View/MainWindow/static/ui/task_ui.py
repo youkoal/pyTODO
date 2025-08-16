@@ -27,7 +27,9 @@ class UI_Taskform(QtWidgets.QWidget) :
         #Position de la tache dans la liste, pour l'identification de celle-ci, spécialement la suppression
 
         self.position = position
-
+        self.parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+        self.icon_path = os.path.abspath(os.path.join(self.parent_dir,"icons"))
+        self.static_path = self.parent_dir
         # Initialise les composants UI
 
         self.init_ui()
@@ -52,9 +54,16 @@ class UI_Taskform(QtWidgets.QWidget) :
         self.setGeometry(0,0, 1000, 100) # x, y , largeur, hauteur
 
         # Chargement et application du CSS à partir d'un fichier
-        with open(os.path.join(parent_dir, "style.qss"), "r") as style_file:
+        with open(os.path.join(self.static_path, "style.qss"), "r") as style_file:
             style_str = style_file.read()
-            self.setStyleSheet(style_str)
+            # print(style_str)
+
+        bg_path =  os.path.join(self.static_path, "background.jpg")
+        bg_path = bg_path.replace("\\", "/")
+        print(f"Background image path: {bg_path}")
+        style_str = style_str.replace("background.jpg", bg_path)
+        self.setStyleSheet(style_str)
+
 
         #Creer un rendu de grille
         self.gridLayout = QtWidgets.QGridLayout(self)
@@ -71,7 +80,7 @@ class UI_Taskform(QtWidgets.QWidget) :
 
         #Ajout Bouton pour retirer la tache
         self.remove_btn = QtWidgets.QPushButton(self.task_widget)
-        self.remove_btn.setIcon(QtGui.QIcon(os.path.join(parent_dir, "icons/bouton.svg")))
+        self.remove_btn.setIcon(QtGui.QIcon(os.path.join(self.icon_path, "bouton.svg")))
         self.remove_btn.setIconSize(QtCore.QSize(20,20))
         self.horizontalLayout.addWidget(self.remove_btn)
 

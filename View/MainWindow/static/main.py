@@ -34,10 +34,14 @@ class MainWindow(QMainWindow):
         self.task_input = self.ui.new_task
 
         self.list_model = QStandardItemModel()
-        self.init_ui()
 
 
         self.task_file_path = os.path.abspath(os.path.join(os.path.dirname(__file__),"task.json"))
+        self.icon_path = os.path.abspath(os.path.join(os.path.dirname(__file__),"icons"))
+        self.static_path = os.path.abspath(os.path.join(os.path.dirname(__file__),"static"))
+
+        self.init_ui()
+
         self.task_list = self.get_task()
         self.show_task(self.task_list)
 
@@ -52,7 +56,7 @@ class MainWindow(QMainWindow):
         self.list_view.setFocusPolicy(Qt.FocusPolicy.NoFocus)
 
         #Icone du bouton et signal
-        self.add_btn.setIcon(QIcon(os.path.join(parent_dir, "icons/bouton.svg")))
+        self.add_btn.setIcon(QIcon(os.path.join(self.icon_path, "bouton.svg")))
         self.add_btn.clicked.connect(self.add_new_task)
 
     def add_new_task(self):
