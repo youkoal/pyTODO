@@ -1,12 +1,12 @@
 import sys
 import os
 
-parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(parent_dir)
 
 #from pyTODO.Models.one_task import one_task
-from pyTODO.Models.one_task import one_task
-from pyTODO.Models.taskbox import taskbox
+from Models.one_task import one_task
+from Models.taskbox import taskbox
 
 
 a_task = one_task("Test Task", "This is a test task for saves tests") 
