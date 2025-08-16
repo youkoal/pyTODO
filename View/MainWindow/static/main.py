@@ -52,7 +52,7 @@ class MainWindow(QMainWindow):
         self.list_view.setFocusPolicy(Qt.FocusPolicy.NoFocus)
 
         #Icone du bouton et signal
-        self.add_btn.setIcon(QIcon(".static/icons/bouton.svg"))
+        self.add_btn.setIcon(QIcon(os.path.join(parent_dir, "icons/bouton.svg")))
         self.add_btn.clicked.connect(self.add_new_task)
 
     def add_new_task(self):
