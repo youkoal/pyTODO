@@ -1,17 +1,14 @@
 import sys
 import os
 import json
-from PyQt6 import QtCore, QtGui, QtWidgets
+from PySide6 import QtCore, QtGui, QtWidgets
 
-class FenetrePrincipale_UI(object):
-
-
-
+class Ui_MainWindow(object):
 
     def setupUI(self, MainWindow):
 
         #Charge et applique les style CSS a la fenetre principale
-        with open("./static/style.qss", "r") as style_file:
+        with open("./View/MainWindow/static/style.qss", "r") as style_file:
             style_str = style_file.read()
             MainWindow.setStyleSheet(style_str)
 
@@ -20,11 +17,11 @@ class FenetrePrincipale_UI(object):
 
         # Parametrage de la taille initiale de la fenetre principale et des propriétés élémentaires
         MainWindow.resize(1000,700)
-        MainWindow.SetObjectName("Fenetre principale")
-        MainWindow.SetObjectTitle("To Do List")
+        MainWindow.setObjectName("Fenetre principale")
+        MainWindow.setWindowTitle("To Do List")
 
         #Parametrage des icones de la fenetre principale
-        window_icon = QtGui.QIcon("./static/icons/list.svg")
+        window_icon = QtGui.QIcon("./View/MainWindow/static/icons/list.svg")
         MainWindow.setWindowIcon(window_icon)
 
         # Creer et parametre le widget central de la fenetre
@@ -53,7 +50,7 @@ class FenetrePrincipale_UI(object):
         self.icon_label = QtWidgets.QLabel(parent=self.title_frame)
         self.icon_label.setMinimumSize(QtCore.QSize(40,40))
         self.icon_label.setMaximumSize(QtCore.QSize(40,40))
-        self.icon_label.setPixmap(QtGui.QPixmap("./static/icons/list.svg"))
+        self.icon_label.setPixmap(QtGui.QPixmap("./View/MainWindow/static/icons/list.svg"))
         self.icon_label.setScaledContents(True)
         self.icon_label.setObjectName("icone_label")
 
@@ -115,7 +112,7 @@ class FenetrePrincipale_UI(object):
         font = QtGui.QFont()
         font.setBold(True)
         self.add_btn.setFont(font)
-        self.add_btn.setIcon("./static/icons/add.svg")
+        self.add_btn.setIcon(QtGui.QIcon("./View/MainWindow/static/icons/add.svg"))
         self.add_btn.setIconSize(QtCore.QSize(30,30))
         self.add_btn.setObjectName("Bouton_Ajout")
 
