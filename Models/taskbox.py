@@ -121,7 +121,6 @@ class taskbox:
         Returns:
             list: A list of strings representing the formatted task.
         """
-        
         lines = task.get_console(length, metadata)
         for i in range(len(lines)):
             lines[i] = stringUtility.format_string(lines[i], content_length, 1, 1, 1, 2)
@@ -145,7 +144,7 @@ class taskbox:
     
     def save_json(self):
         """Saves the task box to a JSON file."""
-        complete_save_file_path = JsonUtility.get_save_directory()
+        complete_save_file_path = JsonUtility.get_save_directory()[0]
         if complete_save_file_path:
             JsonUtility.save_json(self.to_json(), complete_save_file_path)
         else:
@@ -153,7 +152,7 @@ class taskbox:
 
     def get_saved_json(self):
         """Loads the task box from a JSON file."""
-        complete_save_file_path = JsonUtility.get_save_directory()
+        complete_save_file_path = JsonUtility.get_save_directory()[0]
         if complete_save_file_path:
             return JsonUtility.load_json(complete_save_file_path)
         else:
@@ -175,3 +174,13 @@ class taskbox:
         for i, task in enumerate(self.__tasks_done):
             task.set_index(i)
     
+    def from_json(self, json_data):
+        self.__title = json_data.get("title", "New task Box")
+        self.__tasks_todo = [one_task.from_json(task) for task in json_data.get("tasks_todo", [])]
+        self.__tasks_done = [one_task.from_json(task) for task in json_data.get("tasks_done", [])]
+
+        # Update indices after loading tasks
+        for i, task in enumerate(self.__tasks_todo):
+            task.set_index(i)
+        for i, task in enumerate(self.__tasks_done):
+            task.set_index(i)

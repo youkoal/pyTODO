@@ -1,0 +1,11 @@
+# Exclude all __pycache__ directories
+__pycache__/
+**/__pycache__/
+
+# Exclude config.json anywhere in the project
+config.json
+**/config.json
+
+# Exclude Data folder
+Data/
+**/Data/
