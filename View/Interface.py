@@ -1,6 +1,8 @@
 import sys, os
+
 from PySide6.QtGui import QIcon, QAction
-from PySide6.QtWidgets import QApplication, QMainWindow, QGroupBox
+from PySide6.QtWidgets import QApplication, QMainWindow, QGroupBox, QLabel, QVBoxLayout, QWidget
+from Models.taskbox import taskbox
 
 
 class MaFenetre(QMainWindow):
@@ -14,8 +16,11 @@ class MaFenetre(QMainWindow):
         self.CreerAction()
 
         self.CreerMenu()
+        self.Layout_central = QWidget()
+        self.setCentralWidget(self.Layout_central)
         
-        #Barre de menu
+        self.Layout_relais = QVBoxLayout()
+        self.Layout_central.setLayout(self.Layout_relais)
 
     def CreerAction(self):
 
@@ -44,6 +49,13 @@ class MaFenetre(QMainWindow):
 
     def BoutonNouveau(self):
         print("Creation d'une nouvelle liste")
+        label = QLabel("Salut")
+        self.Layout_relais.addWidget(label)
+        #Faire un fonction open qui va aller lire une tache dans le json et l'activer ici
+
+    #def LectureJson(self):
+        
+        
 
 
 
