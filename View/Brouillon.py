@@ -1,7 +1,8 @@
 import sys
 from PyQt6.QtWidgets import QApplication, QWidget,  QFormLayout, QPushButton, QGroupBox, QLineEdit, QDateEdit
 from PyQt6.QtCore import Qt
-
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.append(parent_dir)
 
 class MainWindow(QWidget):
     def __init__(self, *args, **kwargs):

@@ -27,6 +27,7 @@ class one_task:
         self.task_id = -1  # Default ID, can be set later
         self.task_status = True # Default status, can be set later
         self.index = -1  # Default index, can be set later
+    
 
     def print(self):
         print (f"Task({self.task_id}, {self.task_name}, {self.task_description}, {self.task_status})")

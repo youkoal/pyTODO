@@ -10,11 +10,11 @@ from Unit_tests.mocks.UT_taskboxes_taskbox_def import *
 
 
 taskboxes = taskboxes()
-# taskboxes.add_taskbox(a_taskbox)
-# taskboxes.add_taskbox(b_taskbox)
-# taskboxes.add_taskbox(c_taskbox)
+taskboxes.add_taskbox(a_taskbox)
+taskboxes.add_taskbox(b_taskbox)
+taskboxes.add_taskbox(c_taskbox)
 
-taskboxes.load_json()
+# taskboxes.load_json()
 
 
 

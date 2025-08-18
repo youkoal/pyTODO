@@ -1,8 +1,12 @@
 import sys, os
-
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.append(parent_dir)
 from PySide6.QtGui import QIcon, QAction
 from PySide6.QtWidgets import QApplication, QMainWindow, QGroupBox, QLabel, QVBoxLayout, QWidget
 from Models.taskbox import taskbox
+from Models.taskboxes import taskboxes
+from utils.stringUtility import stringUtility
+from View.tasks_views import *
 
 
 class MaFenetre(QMainWindow):
@@ -49,14 +53,20 @@ class MaFenetre(QMainWindow):
 
     def BoutonNouveau(self):
         print("Creation d'une nouvelle liste")
-        BoiteTache = taskbox()
-        BoiteTache.load_json()
-        text = []
-        for line in BoiteTache.get_console():
-            text = line
-            message = QLabel(text)
-            self.Layout_relais.addWidget(message)
-        #Faire un fonction open qui va aller lire une tache dans le json et l'activer ici
+        boxes = taskboxes()
+        boxes.load_json()
+
+        tasksLayout = QVBoxLayout()
+        tasks = QWidget()
+        tasks.setLayout(tasksLayout)
+
+        for box in boxes.get_taskboxes():
+            box_view = create_taskbox_view(box)
+            box_view.setStyleSheet("background-color: lightgray; padding: 10px; border-radius: 5px; border: 1px solid black")
+            tasksLayout.addWidget(box_view)
+
+        self.Layout_relais.addWidget(tasks)
+
 
 
 
