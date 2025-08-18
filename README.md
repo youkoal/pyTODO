@@ -37,3 +37,12 @@ Data/
 
 Troubleshooting :
 issue with JSON : delete "Data" folder and empty the "config.json" file => should be re-created
+
+
+color palette : https://coolors.co/palette/6f1d1b-bb9457-432818-99582a-ffe6a7
+
+#6F1D1B
+#BB9457
+#432818
+#99582A
+#FFE6A7

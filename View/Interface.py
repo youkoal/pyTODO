@@ -25,6 +25,8 @@ class MaFenetre(QMainWindow):
         
         self.Layout_relais = QVBoxLayout()
         self.Layout_central.setLayout(self.Layout_relais)
+        self.Init_from_save()
+
 
     def CreerAction(self):
 
@@ -39,6 +41,7 @@ class MaFenetre(QMainWindow):
         self.ActFuite.setShortcut("Alt+F4")
         self.ActFuite.triggered.connect(self.close)
 
+
             
 
     def CreerMenu(self):
@@ -52,6 +55,10 @@ class MaFenetre(QMainWindow):
         Fichier.addAction(self.ActFuite)
 
     def BoutonNouveau(self):
+        # TODO
+        return
+
+    def Init_from_save(self):
         print("Creation d'une nouvelle liste")
         boxes = taskboxes()
         boxes.load_json()
@@ -59,10 +66,11 @@ class MaFenetre(QMainWindow):
         tasksLayout = QVBoxLayout()
         tasks = QWidget()
         tasks.setLayout(tasksLayout)
+        tasks.setStyleSheet("background-color: #6F1D1B; padding: 10px; border-radius: 5px;")
 
         for box in boxes.get_taskboxes():
-            box_view = create_taskbox_view(box)
-            box_view.setStyleSheet("background-color: lightgray; padding: 10px; border-radius: 5px; border: 1px solid black")
+            box_view = create_taskbox_view(boxes,box)
+            box_view.setStyleSheet("background-color: #432818; padding: 10px; border-radius: 5px; border: 1px solid black")
             tasksLayout.addWidget(box_view)
 
         self.Layout_relais.addWidget(tasks)
