@@ -49,12 +49,17 @@ class MaFenetre(QMainWindow):
 
     def BoutonNouveau(self):
         print("Creation d'une nouvelle liste")
-        label = QLabel("Salut")
-        self.Layout_relais.addWidget(label)
+        BoiteTache = taskbox()
+        BoiteTache.load_json()
+        text = []
+        for line in BoiteTache.get_console():
+            text = line
+            message = QLabel(text)
+            self.Layout_relais.addWidget(message)
         #Faire un fonction open qui va aller lire une tache dans le json et l'activer ici
 
-    #def LectureJson(self):
-        
+
+
         
 
 
