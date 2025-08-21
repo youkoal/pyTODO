@@ -1,0 +1,26 @@
+import sys
+from PySide6 import QtCore, QtGui
+
+
+class MessageBox:
+    def __init__(self, title, message):
+        msg = QtGui.QMessageBox()
+        flags = QtCore.Qt.Dialog
+        flags |= QtCore.Qt.CustomizeWindowHint
+        flags |= QtCore.Qt.WindowTitleHint
+        msg.setWindowFlags(flags)
+        msg.setWindowTitle(title)
+        msg.setText(message)
+        msg.exec_()
+
+class MainWindow(QtGui.QMainWindow):
+    def __init__(self):
+        super(MainWindow, self).__init__()
+        self.show()
+
+        MessageBox("Title", "My message here")
+
+if __name__ == "__main__":
+    app = QtGui.QApplication([])
+    window = MainWindow()
+    sys.exit(app.exec_())
