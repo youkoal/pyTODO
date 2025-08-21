@@ -1,13 +1,13 @@
 import sys, os
 
 from PySide6.QtGui import QIcon, QAction
-from PySide6.QtWidgets import QApplication, QMainWindow, QGroupBox, QLabel, QVBoxLayout, QHBoxLayout, QWidget, QTextEdit,QPushButton
+from PySide6.QtWidgets import QApplication, QMainWindow, QGroupBox, QLabel, QVBoxLayout, QHBoxLayout, QWidget, QTextEdit,QPushButton, QGridLayout
 
 parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(parent_dir)
 
 from Models.taskbox import taskbox
-from Models.one_task import one_task
+from Models.one_task_copy import one_task
 
 
 class FenetreNewTask(QWidget):
@@ -16,95 +16,96 @@ class FenetreNewTask(QWidget):
     it will appear as a free-floating window.
     """
     # Création d'une variable globale
-    void_task = one_task("test","test") 
-    void_taskbox = taskbox()
-    void_taskbox.add_new_task(void_task)
-    void_secondtask = one_task("test","test")
-    void_taskbox.add_new_task(void_secondtask)
-    void_taskbox.check_task(void_secondtask)
     
-    void_taskbox.set_title("Nouvelle Tache")
+    # On sauvegarde la nouvelle tache, si celle-ci est vide on l'effacera
+    
 
     def __init__(self):
         super().__init__()
         
         #Parametre globaux de la fenetre
         self.setWindowTitle("Nouvelle Tache")
-        self.resize(300,300)
+        self.resize(1000,1000)
+        
+        self.void_taskbox = taskbox()
+        
+        self.void_taskbox.set_title("Nouvelle Tache")
+        self.void_taskbox.save_json()
 
         # Layouts
-        layoutNT = QVBoxLayout()
-        self.setLayout(layoutNT)
         
         
         #Afichage de la tache
+
+        ###Bloc edition de tache
+        self.Bloc_edit = QGroupBox()
+        self.Bloc_edit.setFixedSize(200,200)
+        ### Partie Titre et edition
+        self.edition = QVBoxLayout()
+        self.TaskName = QLabel("Nom de la tache :")
+        self.Task_N = QTextEdit()
+        self.TaskDesc = QLabel("Desc de la tache :")
+        self.Task_D = QTextEdit()
+        self.edition.addWidget(self.TaskName)
+        self.edition.addWidget(self.Task_N)
+        self.edition.addWidget(self.TaskDesc)
+        self.edition.addWidget(self.Task_D)
+
+        ### Partie bouton
+        self.Bouton = QVBoxLayout()
+        self.Accepter = QPushButton("Accepter")
+        self.Accepter.setDefault(True)
+        self.Bouton.addWidget(self.Accepter)
+
+        ### On réunis tout
+        self.layout_tot = QHBoxLayout(self.Bloc_edit)
+        self.layout_tot.addLayout(self.edition)
+        self.layout_tot.addLayout(self.Bouton)
+
+        ## On affiche dans la fenetre 
+        self.Afficher_tache()
+        
+
+
+        ### Boutons
+        self.Accepter.clicked.connect(self.Sauvegarder_tache)
+        
+
+        ### Afficher 
+    def Affichage_fenetre(self):
+        _layoutNT = QVBoxLayout()
+        _layoutNT.addWidget(self._layout_tache)
+        _layoutNT.addWidget(self.Bloc_edit)
+        self.layoutNT = _layoutNT
+        self.setLayout(self.layoutNT)
+
+    def Afficher_tache(self):
+        self._layout_tache = QGroupBox()
+        self._layout_tache.setFixedSize(500,500)
+        self.layout_tache = QVBoxLayout()
+        self.void_taskbox.load_json()
         text = []
         for line in self.void_taskbox.get_console():
             text = line
             message = QLabel(text)
-            layoutNT.addWidget(message)
-        self.Bloc_Titre = QGroupBox()
-        self.Bloc_Titre.setObjectName("Bloc Titre")
-        ###Titre au dessus
-        self.Layout_Titre = QHBoxLayout()
-        self.TaskName = QLabel("Nom de la tache :")
-        self.TaskName.setObjectName("Nom tache")
-        self.Layout_Titre.addWidget(self.TaskName)
-        ### Zone de text et bouton en dessous
-        self.layout_text = QHBoxLayout()
-        
-        ### Partie a propos du bouton et de ses effets
-        self.Task_N = QTextEdit()
+            self.layout_tache.addWidget(message)
+        self._layout_tache.setLayout(self.layout_tache)
+        self.Affichage_fenetre()
+      
 
-        self.Task_N.setObjectName("Champ texte Titre")
-        self.Accepter_Titre = QPushButton("Accepter")
-        self.Accepter_Titre.setDefault(True)
+
+    def Sauvegarder_tache(self):
+        A = one_task(self.Task_N.toPlainText(),self.Task_D.toPlainText())
+        self.void_taskbox.add_new_task(A)
+        self.void_taskbox.save_json() 
+        #Rafraichir l'affichage 
+
+        
+        self.Afficher_tache()
         
         
 
-        ### On associe les deux widget de la zone texte ensemble
-        self.layout_text.addWidget(self.Task_N)
-        self.layout_text.addWidget(self.Accepter_Titre)
-        ### On réunis tout ensemble
-        self.main_layout_Titre = QVBoxLayout(self.Bloc_Titre)
-        self.main_layout_Titre.addLayout(self.Layout_Titre)
-        self.main_layout_Titre.addLayout(self.layout_text)
-        self.main_layout_Titre.addStretch()
-
-        # Partie text edit
-        ## Bloc Nom de la tache
-        self.Bloc_Desc = QGroupBox()
-        self.Bloc_Desc.setObjectName("Bloc Desc")
-        ###Titre au dessus
-        self.Layout_Desc = QHBoxLayout()
-        self.TaskDesc = QLabel("Desc de la tache :")
-        self.TaskDesc.setObjectName("Nom Desc")
-        self.Layout_Desc.addWidget(self.TaskDesc)
-        ### Zone de text et bouton en dessous
-        self.layout_text = QHBoxLayout()
-        self.Task_D = QTextEdit()
-        self.Task_D.setObjectName("Champ texte Desc")
-        self.Accepter_Desc = QPushButton("Accepter")
-        self.Accepter_Desc.setDefault(True)
-        ### On associe les deux widget de la zone texte ensemble
-        self.layout_text.addWidget(self.Task_D)
-        self.layout_text.addWidget(self.Accepter_Desc)
-        ### On réunis tout ensemble
-        self.main_layout_Desc = QVBoxLayout(self.Bloc_Desc)
-        self.main_layout_Desc.addLayout(self.Layout_Desc)
-        self.main_layout_Desc.addLayout(self.layout_text)
-        self.main_layout_Desc.addStretch()
-
-        layoutNT.addWidget(self.Bloc_Titre)
-        layoutNT.addWidget(self.Bloc_Desc)
-
-
-        ### Boutons
-        self.Accepter_Titre.clicked.connect(self.Sauvegarder_Nom)
-
-    def Sauvegarder_Nom(self):
-        self.void_task.task_name = self.Task_N.toPlainText()
-        self.void_task.print_console
+    
     
     
     
