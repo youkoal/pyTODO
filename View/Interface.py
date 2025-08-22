@@ -1,7 +1,7 @@
 import sys, os
 
 from PySide6.QtGui import QIcon, QAction
-from PySide6.QtWidgets import QApplication, QMainWindow, QGroupBox, QLabel, QVBoxLayout, QHBoxLayout, QWidget, QTextEdit,QPushButton, QGridLayout
+from PySide6.QtWidgets import QApplication, QMainWindow, QGroupBox, QLabel, QVBoxLayout, QHBoxLayout, QWidget, QTextEdit,QPushButton, QGridLayout,QStackedWidget
 
 parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(parent_dir)
@@ -32,14 +32,14 @@ class FenetreNewTask(QWidget):
         self.void_taskbox.set_title("Nouvelle Tache")
         self.void_taskbox.save_json()
 
-        # Layouts
+        self.Modif = False
         
         
         #Afichage de la tache
 
         ###Bloc edition de tache
         self.Bloc_edit = QGroupBox()
-        self.Bloc_edit.setFixedSize(200,200)
+        self.Bloc_edit.setFixedSize(500,120)
         ### Partie Titre et edition
         self.edition = QVBoxLayout()
         self.TaskName = QLabel("Nom de la tache :")
@@ -73,17 +73,32 @@ class FenetreNewTask(QWidget):
 
         ### Afficher 
     def Affichage_fenetre(self):
-        _layoutNT = QVBoxLayout()
-        _layoutNT.addWidget(self._layout_tache)
-        _layoutNT.addWidget(self.Bloc_edit)
-        self.layoutNT = _layoutNT
+        self._layoutNT = QVBoxLayout()
+        self._layoutNT.addWidget(self._layout_tache)
+        self._layoutNT.addWidget(self.Bloc_edit)
+        self.layoutNT = self._layoutNT
         self.setLayout(self.layoutNT)
+        self._layoutNT.deleteLater()
+
+    def clearTache(self):
+        Tache = []
+        for i in range(self.layout_tache.count()):
+            T = self.layout_tache.itemAt(i).widget()
+            if T:
+                Tache.append(T)
+        for T in Tache:
+            T.deleteLater()
+        
+        
 
     def Afficher_tache(self):
         self._layout_tache = QGroupBox()
         self._layout_tache.setFixedSize(500,500)
+        
         self.layout_tache = QVBoxLayout()
         self.void_taskbox.load_json()
+        self.void_taskbox.print_console()
+        
         text = []
         for line in self.void_taskbox.get_console():
             text = line
@@ -99,8 +114,7 @@ class FenetreNewTask(QWidget):
         self.void_taskbox.add_new_task(A)
         self.void_taskbox.save_json() 
         #Rafraichir l'affichage 
-
-        
+        self.clearTache()
         self.Afficher_tache()
         
         
