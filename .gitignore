@@ -9,3 +9,5 @@ config.json
 # Exclude Data folder
 Data/
 **/Data/
+
+*.pyc

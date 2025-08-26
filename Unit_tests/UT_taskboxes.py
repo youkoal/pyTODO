@@ -24,7 +24,7 @@ from Unit_tests.mocks.UT_taskboxes_taskbox_def import *
 # taskboxes.save_json()
 
 
-
+# tests pour GUI
 taskboxes = taskboxes()
 taskboxes.load_json()
 for taskbox in taskboxes.get_taskboxes():
@@ -42,3 +42,19 @@ for taskbox in taskboxes.get_taskboxes():
         print(f" - Done Task ID: {task.task_id}")
         print(f" - Done Task Status: {task.task_status}")
         print(f" - Done Task Index: {task.index}")
+
+# reccupèrer les task box et stocker la premiere pour tests
+taskbox1 = taskboxes.get_taskboxes()[0]
+
+# récupérer les task todo du la premiere task box pour les tests
+taskbox1_task_todo = taskbox1.get_tasks_todo()
+
+# récupérer la première task todo de la première task box pour les tests
+task1 = taskbox1_task_todo[0]
+
+# modifier la task pour quelques tests
+task1.task_name = "Modified Task Name"
+task1.task_description = "Modified Task Description"
+
+# save pour test
+taskboxes.save_json()
