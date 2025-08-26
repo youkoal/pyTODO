@@ -36,17 +36,6 @@ a_taskbox.add_new_task(a_fourth_task)
 a_taskbox.check_task(a_fourth_task)
 a_taskbox.save_json()
 
-#Affichage d'une taskbox vide
-
-b_taskbox = taskbox()
-b_taskbox.set_title("Taskbox vide")
-b_task = one_task(" "," ") 
-b_taskbox.add_new_task(b_task)
-b_secondtask = one_task(" "," ")
-b_taskbox.add_new_task(b_secondtask)
-b_taskbox.check_task(b_secondtask)
-b_taskbox.print_console()
-
 # print("Initial Task Box with ALL checked:")
 # a_taskbox.set_title("Finished Task Box")
 # a_taskbox.check_task(a_third_task)

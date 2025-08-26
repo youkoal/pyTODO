@@ -16,17 +16,17 @@ a_fourth_task = one_task("a task", "for saves tests")
 
 
 a_taskbox = taskbox()
-a_taskbox.load_json()
+# a_taskbox.load_json()
 
 
 
 
-#a_taskbox.add_new_task(a_task)
-#a_taskbox.add_new_task(a_second_task)
-#a_taskbox.add_new_task(a_third_task)
-#a_taskbox.add_new_task(a_fourth_task)
-#a_taskbox.check_task(a_fourth_task)
-#a_taskbox.save_json()
+a_taskbox.add_new_task(a_task)
+a_taskbox.add_new_task(a_second_task)
+a_taskbox.add_new_task(a_third_task)
+a_taskbox.add_new_task(a_fourth_task)
+a_taskbox.check_task(a_fourth_task)
+a_taskbox.save_json()
 
 #a_taskbox.uncheck_task(a_taskbox.get_tasks_done()[2])
 #a_taskbox.uncheck_task(a_taskbox.get_tasks_done()[2])

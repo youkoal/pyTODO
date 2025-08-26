@@ -21,12 +21,19 @@ class one_task:
         print_console(length=50, metadata=False): Prints the task details in a formatted console output.
         get_console(length, metadata=False): Returns a formatted array representation of the task for console output
     """
+    task_name = ""
+    task_description = ""
+    task_id = ""
+    task_status = ""
+    index = ""
+    
     def __init__(self, task_name, task_description):
         self.task_name = task_name
         self.task_description = task_description
         self.task_id = -1  # Default ID, can be set later
         self.task_status = True # Default status, can be set later
         self.index = -1  # Default index, can be set later
+    
 
     def print(self):
         print (f"Task({self.task_id}, {self.task_name}, {self.task_description}, {self.task_status})")

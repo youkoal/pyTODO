@@ -44,7 +44,7 @@ class JsonUtility:
 
         # get the config file path
         config_path = os.path.join(JsonUtility.parent_dir, "config.json")
-        print("========> " + config_path)
+        # print("========> " + config_path)
 
         # default values for if there is an issue with default config file
         save_directory = "test"
@@ -56,7 +56,7 @@ class JsonUtility:
         # Resilience about config file + default values settings for config file (is this considered a fixture?)
         with open(config_path, 'r', encoding='utf-8') as file:
             cfg_content = file.read()
-            print("CFG : " + cfg_content + " " + str(len(cfg_content)))
+            # print("CFG : " + cfg_content + " " + str(len(cfg_content)))
             if len(cfg_content) == 0:
                 print(f"Config file is empty: {config_path}")
             else:
@@ -93,8 +93,8 @@ class JsonUtility:
             JsonUtility.save_file_X = save_file_X
             JsonUtility.complete_save_file_path = complete_save_file_path
             JsonUtility.complete_save_file_path_X = complete_save_file_path_X
-            print(f"Save set to: {JsonUtility.complete_save_file_path}")
-            print(f"Save set to: {JsonUtility.complete_save_file_path_X}")
+            # print(f"Save set to: {JsonUtility.complete_save_file_path}")
+            # print(f"Save set to: {JsonUtility.complete_save_file_path_X}")
             return [complete_save_file_path, complete_save_file_path_X]
 
 
