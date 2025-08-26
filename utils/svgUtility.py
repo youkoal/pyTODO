@@ -1,6 +1,6 @@
-from PyQt6.QtSvg import QSvgRenderer
-from PyQt6.QtGui import QPixmap, QPainter, QColor
-from PyQt6.QtCore import Qt
+from PySide6.QtSvg import QSvgRenderer
+from PySide6.QtGui import QPixmap, QPainter, QColor
+from PySide6.QtCore import Qt
 
 
 def svg_to_colored_pixmap(svg_path, size, color):

@@ -65,6 +65,9 @@ class taskbox:
     def set_title(self, title):
         self.__title = title
         return self.__title
+    
+    def get_title(self):
+        return self.__title
 
 
     def get_tasks_todo(self):

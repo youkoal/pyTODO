@@ -1,5 +1,5 @@
 {
-    "title": "Nouvelle Tache",
+    "title": "New task Box",
     "tasks_todo": [
         {
             "task_name": "Une tache",
@@ -79,5 +79,13 @@
             "index": 10
         }
     ],
-    "tasks_done": []
+    "tasks_done": [
+        {
+            "task_name": "a task",
+            "task_description": "for saves tests",
+            "task_id": -1,
+            "task_status": false,
+            "index": 0
+        }
+    ]
 }
