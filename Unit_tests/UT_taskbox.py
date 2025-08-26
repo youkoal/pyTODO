@@ -3,6 +3,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from Models.one_task import one_task
 from Models.taskbox import taskbox
+import json
 
 
 a_task = one_task("Test Task", "This is a test task") 
@@ -15,38 +16,50 @@ a_taskbox.set_title("My Task Box")
 a_taskbox.add_new_task(a_task)
 a_taskbox.add_new_task(a_second_task)
 a_taskbox.add_new_task(a_third_task)
-
-
-print("Initial Task Box with second task checked:")
-a_taskbox.check_task(a_second_task)
-a_taskbox.print_console()  # Should print the task box details with tasks
-
-
-print("Initial Task Box with NO task checked:")
-a_taskbox.uncheck_task(a_second_task)
-a_taskbox.print_console()  # Should print the task box details with tasks
-
-
-print("Initial Task Box with first and second task checked:")
-a_taskbox.check_task(a_task)
-a_taskbox.check_task(a_second_task)
-a_taskbox.print_console()  # Should print the task box details with tasks
-
-a_taskbox.add_new_task(a_fourth_task)
-a_taskbox.check_task(a_fourth_task)
 a_taskbox.save_json()
+print(a_taskbox.get_console_extended(a_taskbox.get_tasks_todo()[0]))
 
+f = open("Data/tasks.json")
+data = json.load(f)
+
+for i in data['tasks_todo']:
+    print(i)
+
+f.close()
+
+
+
+
+# print("Initial Task Box with second task checked:")
+# a_taskbox.check_task(a_second_task)
+# a_taskbox.print_console()  # Should print the task box details with tasks
+# 
+# 
+# print("Initial Task Box with NO task checked:")
+# a_taskbox.uncheck_task(a_second_task)
+# a_taskbox.print_console()  # Should print the task box details with tasks
+# 
+# 
+# print("Initial Task Box with first and second task checked:")
+# a_taskbox.check_task(a_task)
+# a_taskbox.check_task(a_second_task)
+# a_taskbox.print_console()  # Should print the task box details with tasks
+# 
+# a_taskbox.add_new_task(a_fourth_task)
+# a_taskbox.check_task(a_fourth_task)
+# a_taskbox.save_json()
+# 
 #Affichage d'une taskbox vide
-
-b_taskbox = taskbox()
-b_taskbox.set_title("Taskbox vide")
-b_task = one_task(" "," ") 
-b_taskbox.add_new_task(b_task)
-b_secondtask = one_task(" "," ")
-b_taskbox.add_new_task(b_secondtask)
-b_taskbox.check_task(b_secondtask)
-b_taskbox.print_console()
-
+# 
+# b_taskbox = taskbox()
+# b_taskbox.set_title("Taskbox vide")
+# b_task = one_task(" "," ") 
+# b_taskbox.add_new_task(b_task)
+# b_secondtask = one_task(" "," ")
+# b_taskbox.add_new_task(b_secondtask)
+# b_taskbox.check_task(b_secondtask)
+# b_taskbox.print_console()
+# 
 # print("Initial Task Box with ALL checked:")
 # a_taskbox.set_title("Finished Task Box")
 # a_taskbox.check_task(a_third_task)

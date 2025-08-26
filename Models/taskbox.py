@@ -173,6 +173,7 @@ class taskbox:
             task.set_index(i)
         for i, task in enumerate(self.__tasks_done):
             task.set_index(i)
+        return self.__tasks_todo
     
     def from_json(self, json_data):
         self.__title = json_data.get("title", "New task Box")
