@@ -1,7 +1,8 @@
-import sys, os
+import sys, os, json
 
 from PySide6.QtGui import QIcon, QAction
-from PySide6.QtWidgets import QApplication, QMainWindow, QGroupBox, QLabel, QVBoxLayout, QHBoxLayout, QWidget, QTextEdit,QPushButton, QGridLayout,QStackedWidget
+from PySide6.QtWidgets import QApplication, QMainWindow, QGroupBox, QLabel, QVBoxLayout, QHBoxLayout, QWidget, QTextEdit,QPushButton, QCheckBox,QScrollArea
+from PySide6.QtCore import Qt
 
 parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(parent_dir)
@@ -30,7 +31,9 @@ class FenetreNewTask(QWidget):
         self.void_taskbox = taskbox()
         
         self.void_taskbox.set_title("Nouvelle Tache")
+
         self.void_taskbox.save_json()
+
 
         self.Modif = False
         
@@ -50,10 +53,17 @@ class FenetreNewTask(QWidget):
         self.edition.addWidget(self.Task_D)
 
         ### Partie bouton
+        ### Bouton nouvelle tâche
         self.Bouton = QVBoxLayout()
-        self.Accepter = QPushButton("Accepter")
+        self.Accepter = QPushButton("Nouvelle tâche")
         self.Accepter.setDefault(True)
         self.Bouton.addWidget(self.Accepter)
+
+        ### Bouton tache check
+        self.Acheve = QPushButton("Tâche achevés")
+        self.Acheve.setDefault(True)
+        self.Bouton.addWidget(self.Acheve)
+        
 
         ### On réunis tout
         self.layout_tot = QHBoxLayout(self.Bloc_edit)
@@ -65,41 +75,96 @@ class FenetreNewTask(QWidget):
 
         ### Boutons accepter
         self.Accepter.clicked.connect(self.Sauvegarder_tache)
+
+        ### Bouton tache achevée
+        self.Acheve.clicked.connect(self.Achever_tache)
         
 
         ### Afficher 
     def Affichage_fenetre(self):
         self._layoutNT = QVBoxLayout()
-        self._layoutNT.addWidget(self._layout_tache)
+        self._layoutNT.addWidget(self.Box_to_do)
+        self._layoutNT.addWidget(self.Box_check)
         self._layoutNT.addWidget(self.Bloc_edit)
         self.layoutNT = self._layoutNT
         self.setLayout(self.layoutNT)
         self._layoutNT.deleteLater()
 
-    def clearTache(self):
-        ### Efface les layout contenu dans layout_tache, pour refraichir l'affichage
-        Tache = []
-        for i in range(self.layout_tache.count()):
-            T = self.layout_tache.itemAt(i).widget()
-            if T:
-                Tache.append(T)
-        for T in Tache:
-            T.deleteLater()
+    # def clearTache(self):
+        ## Efface les layout contenu dans layout_tache, pour refraichir l'affichage
+        # Tache = []
+        # for i in range(self.layout_tache.count()):
+            # T = self.layout_tache.itemAt(i).widget()
+            # if T:
+                # Tache.append(T)
+        # for T in Tache:
+            # T.deleteLater()
         
     def Afficher_tache(self):
         ## Fonction affichage de la tache, appelé au début et a chaque màj
-        self._layout_tache = QGroupBox()
-        self._layout_tache.setFixedSize(500,500)
+        #### Chargement des taches dans la taskbox
+
+
+        f = open('Data/tasks.json')
+        data = json.load(f)
+        Ntask_todo = len(data['tasks_todo'])
+        Ntask_done = len(data['tasks_done'])
+
+
+        self.Box_to_do = QScrollArea()
+        self.Box_to_do.setFixedSize(500,300)
+        self.widget_TODO = QWidget()
+        self.List_to_do = QVBoxLayout()
+
+
+        if Ntask_todo !=0:
+
+            for i in data['tasks_todo']:
+
+                self.task = QCheckBox(str(str(i).split(",")[0]).split(":")[1])
+                self.desc = QLabel(str(str(i).split(",")[1]).split(":")[1])
+
+                self.List_to_do.addWidget(self.task)
+                self.List_to_do.addWidget(self.desc)
+        else:
+            self.List_to_do.addWidget(QLabel("Aucune tâche en cours"))
+
+        self.widget_TODO.setLayout(self.List_to_do)
+
+        self.Box_check = QScrollArea()
+        self.Box_check.setFixedSize(500,300)
+        self.widget_check = QWidget()
+        self.List_check = QVBoxLayout()
+        if Ntask_done !=0:
+            for i in data['tasks_done']:
+
+                self.task = QCheckBox(str(str(i).split(",")[0]).split(":")[1])
+                self.desc = QLabel(str(str(i).split(",")[1]).split(":")[1])
+
+                self.List_check.addWidget(self.task)
+                self.List_check.addWidget(self.desc)
+        else:
+            self.List_check.addWidget(QLabel("Aucune tâche en cours"))
+
+        self.widget_check.setLayout(self.List_check)
+
+
         
-        self.layout_tache = QVBoxLayout()
-        self.void_taskbox.load_json()
-        text = []
-        for line in self.void_taskbox.get_console():
-            text = line
-            message = QLabel(text)
-            self.layout_tache.addWidget(message)
-        self._layout_tache.setLayout(self.layout_tache)
+
+        #Parametre scroll area
+        self.Box_to_do.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.Box_to_do.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.Box_to_do.setWidgetResizable(True)
+        self.Box_to_do.setWidget(self.widget_TODO)
+
+        self.Box_check.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.Box_check.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.Box_check.setWidgetResizable(True)
+        self.Box_check.setWidget(self.widget_check)
+
+        f.close()
         self.Affichage_fenetre()
+
 
     def Sauvegarder_tache(self):
         ##Sauvegarde de la tache dans le json et rafraichit l'affichage
@@ -107,22 +172,16 @@ class FenetreNewTask(QWidget):
         self.void_taskbox.add_new_task(A)
         self.void_taskbox.save_json() 
         #Rafraichir l'affichage 
-        self.clearTache()
+        #self.clearTache()
         self.Afficher_tache()
+    
+    def Achever_tache(self):
+        pass
+
         
         
 
     
-    
-    
-    
-
-
-        
-
-        
-
-
 
 
 class MaFenetre(QMainWindow):
@@ -194,16 +253,5 @@ class MaFenetre(QMainWindow):
 
     def SauvegarderNewTaskBox(self):
         pass
-
-
-        
-
-
-
-
-
-
-
-            
-
-
+    
+    

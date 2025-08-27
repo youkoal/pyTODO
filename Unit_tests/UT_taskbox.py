@@ -3,6 +3,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from Models.one_task import one_task
 from Models.taskbox import taskbox
+import json
 
 
 a_task = one_task("Test Task", "This is a test task") 
@@ -15,26 +16,8 @@ a_taskbox.set_title("My Task Box")
 a_taskbox.add_new_task(a_task)
 a_taskbox.add_new_task(a_second_task)
 a_taskbox.add_new_task(a_third_task)
-
-
-print("Initial Task Box with second task checked:")
-a_taskbox.check_task(a_second_task)
-a_taskbox.print_console()  # Should print the task box details with tasks
-
-
-print("Initial Task Box with NO task checked:")
-a_taskbox.uncheck_task(a_second_task)
-a_taskbox.print_console()  # Should print the task box details with tasks
-
-
-print("Initial Task Box with first and second task checked:")
-a_taskbox.check_task(a_task)
-a_taskbox.check_task(a_second_task)
-a_taskbox.print_console()  # Should print the task box details with tasks
-
-a_taskbox.add_new_task(a_fourth_task)
-a_taskbox.check_task(a_fourth_task)
 a_taskbox.save_json()
+print(a_taskbox.get_console_extended(a_taskbox.get_tasks_todo()[0]))
 
 # print("Initial Task Box with ALL checked:")
 # a_taskbox.set_title("Finished Task Box")
