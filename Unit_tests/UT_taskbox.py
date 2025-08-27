@@ -19,6 +19,7 @@ a_taskbox.add_new_task(a_third_task)
 a_taskbox.save_json()
 print(a_taskbox.get_console_extended(a_taskbox.get_tasks_todo()[0]))
 
+
 # print("Initial Task Box with ALL checked:")
 # a_taskbox.set_title("Finished Task Box")
 # a_taskbox.check_task(a_third_task)

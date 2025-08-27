@@ -32,7 +32,7 @@ class FenetreNewTask(QWidget):
         
         self.void_taskbox.set_title("Nouvelle Tache")
 
-        self.void_taskbox.save_json()
+        
 
 
         self.Modif = False
@@ -105,10 +105,18 @@ class FenetreNewTask(QWidget):
         #### Chargement des taches dans la taskbox
 
 
-        f = open('Data/tasks.json')
-        data = json.load(f)
-        Ntask_todo = len(data['tasks_todo'])
-        Ntask_done = len(data['tasks_done'])
+        # f = open('Data/tasks.json')
+        # data = json.load(f)
+        
+        
+        self.void_taskbox.load_json()
+        # Creation des deux dataset
+        dataTD = self.void_taskbox.get_tasks_todo()
+        dataD = self.void_taskbox.get_tasks_done()
+
+        #Longueur pour savoir si l'un est vide
+        Ntask_todo = len(dataTD)
+        Ntask_done = len(dataD)
 
 
         self.Box_to_do = QScrollArea()
@@ -116,13 +124,16 @@ class FenetreNewTask(QWidget):
         self.widget_TODO = QWidget()
         self.List_to_do = QVBoxLayout()
 
-
+        self.Checked_todo = []
         if Ntask_todo !=0:
 
-            for i in data['tasks_todo']:
+            for tache in dataTD:
 
-                self.task = QCheckBox(str(str(i).split(",")[0]).split(":")[1])
-                self.desc = QLabel(str(str(i).split(",")[1]).split(":")[1])
+                self.task = QCheckBox(tache.task_name)
+                #self.task.stateChanged.connect(self.Todo2done)
+                self.desc = QLabel(tache.task_description)
+                self.Checked_todo.append(self.task)
+                self.task.stateChanged.connect(lambda : self.Achever_tache(tache,self.void_taskbox))
 
                 self.List_to_do.addWidget(self.task)
                 self.List_to_do.addWidget(self.desc)
@@ -136,10 +147,10 @@ class FenetreNewTask(QWidget):
         self.widget_check = QWidget()
         self.List_check = QVBoxLayout()
         if Ntask_done !=0:
-            for i in data['tasks_done']:
+            for i in dataD:
 
-                self.task = QCheckBox(str(str(i).split(",")[0]).split(":")[1])
-                self.desc = QLabel(str(str(i).split(",")[1]).split(":")[1])
+                self.task = QCheckBox(i.task_name)
+                self.desc = QLabel(i.task_description)
 
                 self.List_check.addWidget(self.task)
                 self.List_check.addWidget(self.desc)
@@ -162,7 +173,7 @@ class FenetreNewTask(QWidget):
         self.Box_check.setWidgetResizable(True)
         self.Box_check.setWidget(self.widget_check)
 
-        f.close()
+   
         self.Affichage_fenetre()
 
 
@@ -175,8 +186,15 @@ class FenetreNewTask(QWidget):
         #self.clearTache()
         self.Afficher_tache()
     
-    def Achever_tache(self):
-        pass
+    def Achever_tache(self,task,taskbox):
+        
+        # for tache in self.Checked_todo:
+            # if tache.isChecked() :
+                # print(tache)
+        taskbox.check_task(task)
+
+        self.Afficher_tache()       
+            #self.void_taskbox.check_task(task)
 
         
         
