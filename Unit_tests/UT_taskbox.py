@@ -3,7 +3,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from Models.one_task import one_task
 from Models.taskbox import taskbox
-import json
+
 
 
 a_task = one_task("Test Task", "This is a test task") 
@@ -18,6 +18,10 @@ a_taskbox.add_new_task(a_second_task)
 a_taskbox.add_new_task(a_third_task)
 a_taskbox.save_json()
 print(a_taskbox.get_console_extended(a_taskbox.get_tasks_todo()[0]))
+
+print(a_taskbox.get_tasks_todo()[0].get_index())
+
+
 
 
 # print("Initial Task Box with ALL checked:")
