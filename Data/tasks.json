@@ -1,41 +1,28 @@
 {
-    "title": "Nouvelle Tache",
+    "title": "My Task Box",
     "tasks_todo": [
         {
-            "task_name": "Yo",
-            "task_description": "bien?",
+            "task_name": "Test Task",
+            "task_description": "This is a test task",
             "task_id": -1,
             "task_status": true,
             "index": 0
         },
         {
-            "task_name": "un truc 2",
-            "task_description": "hmmm kebab!",
+            "task_name": "Third Task",
+            "task_description": "This is yet another test task with a verry long description that should be truncated in the console output",
             "task_id": -1,
             "task_status": true,
             "index": 1
-        },
-        {
-            "task_name": "Une tache",
-            "task_description": "Peace",
-            "task_id": -1,
-            "task_status": true,
-            "index": 2
-        },
-        {
-            "task_name": "Un truc\t",
-            "task_description": "Un turc",
-            "task_id": -1,
-            "task_status": true,
-            "index": 3
-        },
-        {
-            "task_name": "Un truc 3",
-            "task_description": "pas de description",
-            "task_id": -1,
-            "task_status": true,
-            "index": 4
         }
     ],
-    "tasks_done": []
+    "tasks_done": [
+        {
+            "task_name": "Second Task",
+            "task_description": "This is another test task",
+            "task_id": -1,
+            "task_status": false,
+            "index": 0
+        }
+    ]
 }

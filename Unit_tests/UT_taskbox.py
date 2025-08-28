@@ -16,12 +16,19 @@ a_taskbox.set_title("My Task Box")
 a_taskbox.add_new_task(a_task)
 a_taskbox.add_new_task(a_second_task)
 a_taskbox.add_new_task(a_third_task)
+
+a_taskbox.check_task(a_second_task)
 a_taskbox.save_json()
-print(a_taskbox.get_console_extended(a_taskbox.get_tasks_todo()[0]))
-
-print(a_taskbox.get_tasks_todo()[0].get_index())
 
 
+
+a,b = a_taskbox.get_all_tasks()
+a.extend(b)
+a_taskbox.print_console()
+a_taskbox.erase_task(a[0])
+
+a_taskbox.print_console()
+#a_taskbox.print_console()
 
 
 # print("Initial Task Box with ALL checked:")

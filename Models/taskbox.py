@@ -34,9 +34,24 @@ class taskbox:
         self.__tasks_todo = []
         self.__tasks_done = []
 
+
     def add_new_task(self, task):
-        task.set_index(len(self.__tasks_todo))
+        task.set_index(len(self.__tasks_todo))        
         self.__tasks_todo.append(task)
+
+    def erase_task(self,task):
+        src_list = self.__tasks_done
+        if task.task_status :
+            src_list = self.__tasks_todo
+        
+        current_index = task.get_index()
+        src_list.pop(current_index)
+        for i in range(current_index, len(src_list)):
+            src_list[i].set_index(src_list[i].get_index() - 1)
+        
+
+        
+        
 
     
     def _move_task_between_lists(self, task, src_list, dst_list):

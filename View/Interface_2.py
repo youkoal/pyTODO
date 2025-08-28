@@ -8,7 +8,7 @@ parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(parent_dir)
 
 from Models.taskbox import taskbox
-from Models.one_task_copy import one_task
+from Models.one_task import one_task
 
 
 class FenetreNewTask(QWidget):
@@ -68,6 +68,11 @@ class FenetreNewTask(QWidget):
         self.Desacheve = QPushButton("Tâche à faire")
         self.Desacheve.setDefault(True)
         self.Bouton.addWidget(self.Desacheve)
+
+        ### Bouton tache supprimer
+        self.Sup = QPushButton("Supprimer tâche(s)")
+        self.Sup.setDefault(True)
+        self.Bouton.addWidget(self.Sup)
         
 
         ### On réunis tout
@@ -85,6 +90,10 @@ class FenetreNewTask(QWidget):
         self.Acheve.clicked.connect(self.Achever_tache)
 
         self.Desacheve.clicked.connect(self.Uncheck_tache)
+
+        self.Sup.clicked.connect(self.Supprimer_tache)
+
+
         
 
         ### Afficher 
@@ -215,13 +224,27 @@ class FenetreNewTask(QWidget):
             position = self.Checked_done.index(tache)
 
 
-            if tache.isChecked() :
+            if tache.isChecked():
                 print(position)
                 self.void_taskbox.uncheck_task(self.void_taskbox.get_tasks_done()[position])
         # 
         self.void_taskbox.save_json()
         self.Afficher_tache()  
 
+    def Supprimer_tache(self):
+        Trashbin = [tache for tache in self.Checked_todo if tache.isChecked()]
+        Trashbin_D = [tache for tache in self.Checked_done if tache.isChecked()]
+        Trashbin.extend(Trashbin_D)
+
+        for tache in Trashbin:
+
+            position = Trashbin.index(tache)
+
+            if tache.isChecked():
+                self.void_taskbox.erase_task(self.void_taskbox.get_all_tasks()[position])
+
+        self.void_taskbox.save_json()
+        self.Afficher_tache()
         
 
         
