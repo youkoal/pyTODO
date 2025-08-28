@@ -13,3 +13,5 @@ Data/
 *.pyc
 
 *.pyc
+config.json
+Data/tasks.json

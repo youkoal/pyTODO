@@ -1,76 +1,35 @@
 {
-    "title": "Nouvelle Tache",
+    "title": "New task Box",
     "tasks_todo": [
         {
-            "task_name": "salut",
-            "task_description": "ca va",
+            "task_name": "Test Task",
+            "task_description": "This is a test task for saves tests",
             "task_id": -1,
             "task_status": true,
             "index": 0
         },
         {
-            "task_name": "salut",
-            "task_description": "une desription un peu plus longue",
+            "task_name": "Second Task",
+            "task_description": "This is another test task for saves tests",
             "task_id": -1,
             "task_status": true,
             "index": 1
         },
         {
-            "task_name": "1",
-            "task_description": "",
+            "task_name": "Third Task",
+            "task_description": "This is yet another test task for saves tests",
             "task_id": -1,
             "task_status": true,
             "index": 2
-        },
-        {
-            "task_name": "12",
-            "task_description": "",
-            "task_id": -1,
-            "task_status": true,
-            "index": 3
-        },
-        {
-            "task_name": "123",
-            "task_description": "",
-            "task_id": -1,
-            "task_status": true,
-            "index": 4
-        },
-        {
-            "task_name": "1234",
-            "task_description": "",
-            "task_id": -1,
-            "task_status": true,
-            "index": 5
-        },
-        {
-            "task_name": "12345",
-            "task_description": "",
-            "task_id": -1,
-            "task_status": true,
-            "index": 6
-        },
-        {
-            "task_name": "12345",
-            "task_description": "",
-            "task_id": -1,
-            "task_status": true,
-            "index": 7
-        },
-        {
-            "task_name": "",
-            "task_description": "",
-            "task_id": -1,
-            "task_status": true,
-            "index": 8
-        },
-        {
-            "task_name": "1312",
-            "task_description": "",
-            "task_id": -1,
-            "task_status": true,
-            "index": 9
         }
     ],
-    "tasks_done": []
+    "tasks_done": [
+        {
+            "task_name": "a task",
+            "task_description": "for saves tests",
+            "task_id": -1,
+            "task_status": false,
+            "index": 0
+        }
+    ]
 }
