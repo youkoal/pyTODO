@@ -9,11 +9,11 @@ from Models.taskboxes import taskboxes
 from Unit_tests.mocks.UT_taskboxes_taskbox_def import *
 
 
-# taskboxes = taskboxes()
-# # taskboxes.add_taskbox(a_taskbox)
-# # taskboxes.add_taskbox(b_taskbox)
-# # taskboxes.add_taskbox(c_taskbox)
-# # 
+taskboxes = taskboxes()
+taskboxes.add_taskbox(a_taskbox)
+taskboxes.add_taskbox(b_taskbox)
+taskboxes.add_taskbox(c_taskbox)
+# 
 # taskboxes.load_json()
 
 
@@ -21,12 +21,12 @@ from Unit_tests.mocks.UT_taskboxes_taskbox_def import *
 # for taskbox in taskboxes.get_taskboxes():
 #     taskbox.print_console()
 
-# taskboxes.save_json()
+taskboxes.save_json()
 
 
 # tests pour GUI
-taskboxes = taskboxes()
-taskboxes.load_json()
+# taskboxes = taskboxes()
+# taskboxes.load_json()
 for taskbox in taskboxes.get_taskboxes():
     print(f"Taskbox Title: {taskbox.get_title()}")
     for task in taskbox.get_tasks_todo() :
@@ -58,3 +58,11 @@ task1.task_description = "Modified Task Description"
 
 # save pour test
 taskboxes.save_json()
+
+def generate_test_data():
+    # Generate test data for taskboxes
+    taskboxes = taskboxes()
+    taskboxes.add_taskbox(a_taskbox)
+    taskboxes.add_taskbox(b_taskbox)
+    taskboxes.add_taskbox(c_taskbox)
+    taskboxes.save_json()
