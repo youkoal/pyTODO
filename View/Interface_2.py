@@ -8,7 +8,7 @@ parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(parent_dir)
 
 from Models.taskbox import taskbox
-from Models.one_task_copy import one_task
+from Models.one_task import one_task
 
 
 class FenetreNewTask(QWidget):
@@ -20,15 +20,16 @@ class FenetreNewTask(QWidget):
     
     # On sauvegarde la nouvelle tache, si celle-ci est vide on l'effacera
     
+    
 
     def __init__(self):
         super().__init__()
-        
+        self.void_taskbox = taskbox()
         #Parametre globaux de la fenetre
         self.setWindowTitle("Nouvelle Tache")
         self.resize(500,800)
         
-        self.void_taskbox = taskbox()
+        
         
         self.void_taskbox.set_title("Nouvelle Tache")
 
@@ -60,9 +61,18 @@ class FenetreNewTask(QWidget):
         self.Bouton.addWidget(self.Accepter)
 
         ### Bouton tache check
-        self.Acheve = QPushButton("Tâche achevés")
+        self.Acheve = QPushButton("Tâche terminée")
         self.Acheve.setDefault(True)
         self.Bouton.addWidget(self.Acheve)
+        ### Bouton tache check
+        self.Desacheve = QPushButton("Tâche à faire")
+        self.Desacheve.setDefault(True)
+        self.Bouton.addWidget(self.Desacheve)
+
+        ### Bouton tache supprimer
+        self.Sup = QPushButton("Supprimer tâche(s)")
+        self.Sup.setDefault(True)
+        self.Bouton.addWidget(self.Sup)
         
 
         ### On réunis tout
@@ -78,6 +88,12 @@ class FenetreNewTask(QWidget):
 
         ### Bouton tache achevée
         self.Acheve.clicked.connect(self.Achever_tache)
+
+        self.Desacheve.clicked.connect(self.Uncheck_tache)
+
+        self.Sup.clicked.connect(self.Supprimer_tache)
+
+
         
 
         ### Afficher 
@@ -90,24 +106,24 @@ class FenetreNewTask(QWidget):
         self.setLayout(self.layoutNT)
         self._layoutNT.deleteLater()
 
+
+
     # def clearTache(self):
-        ## Efface les layout contenu dans layout_tache, pour refraichir l'affichage
+        #Efface les layout contenu dans layout_tache, pour refraichir l'affichage
         # Tache = []
-        # for i in range(self.layout_tache.count()):
-            # T = self.layout_tache.itemAt(i).widget()
+        # for i in range(self.layoutNT.count()):
+            # T = self.layoutNT.itemAt(i).widget()
+# 
             # if T:
                 # Tache.append(T)
         # for T in Tache:
             # T.deleteLater()
-        
+
+
     def Afficher_tache(self):
         ## Fonction affichage de la tache, appelé au début et a chaque màj
         #### Chargement des taches dans la taskbox
 
-
-        # f = open('Data/tasks.json')
-        # data = json.load(f)
-        
         
         self.void_taskbox.load_json()
         # Creation des deux dataset
@@ -130,10 +146,9 @@ class FenetreNewTask(QWidget):
             for tache in dataTD:
 
                 self.task = QCheckBox(tache.task_name)
-                #self.task.stateChanged.connect(self.Todo2done)
                 self.desc = QLabel(tache.task_description)
                 self.Checked_todo.append(self.task)
-                self.task.stateChanged.connect(lambda : self.Achever_tache(tache,self.void_taskbox))
+                
 
                 self.List_to_do.addWidget(self.task)
                 self.List_to_do.addWidget(self.desc)
@@ -146,11 +161,13 @@ class FenetreNewTask(QWidget):
         self.Box_check.setFixedSize(500,300)
         self.widget_check = QWidget()
         self.List_check = QVBoxLayout()
+        self.Checked_done = []
         if Ntask_done !=0:
             for i in dataD:
 
                 self.task = QCheckBox(i.task_name)
                 self.desc = QLabel(i.task_description)
+                self.Checked_done.append(self.task)
 
                 self.List_check.addWidget(self.task)
                 self.List_check.addWidget(self.desc)
@@ -173,7 +190,7 @@ class FenetreNewTask(QWidget):
         self.Box_check.setWidgetResizable(True)
         self.Box_check.setWidget(self.widget_check)
 
-   
+
         self.Affichage_fenetre()
 
 
@@ -183,18 +200,52 @@ class FenetreNewTask(QWidget):
         self.void_taskbox.add_new_task(A)
         self.void_taskbox.save_json() 
         #Rafraichir l'affichage 
-        #self.clearTache()
         self.Afficher_tache()
     
-    def Achever_tache(self,task,taskbox):
+    def Achever_tache(self):
         
-        # for tache in self.Checked_todo:
-            # if tache.isChecked() :
-                # print(tache)
-        taskbox.check_task(task)
 
-        self.Afficher_tache()       
-            #self.void_taskbox.check_task(task)
+        for tache in self.Checked_todo:
+
+            position = self.Checked_todo.index(tache)
+
+
+            if tache.isChecked() :
+                print(position)
+                self.void_taskbox.check_task(self.void_taskbox.get_tasks_todo()[position])
+        # 
+        self.void_taskbox.save_json()
+        self.Afficher_tache()  
+
+    def Uncheck_tache(self):
+
+        for tache in self.Checked_done:
+
+            position = self.Checked_done.index(tache)
+
+
+            if tache.isChecked():
+                print(position)
+                self.void_taskbox.uncheck_task(self.void_taskbox.get_tasks_done()[position])
+        # 
+        self.void_taskbox.save_json()
+        self.Afficher_tache()  
+
+    def Supprimer_tache(self):
+        Trashbin = [tache for tache in self.Checked_todo if tache.isChecked()]
+        Trashbin_D = [tache for tache in self.Checked_done if tache.isChecked()]
+        Trashbin.extend(Trashbin_D)
+
+        for tache in Trashbin:
+
+            position = Trashbin.index(tache)
+
+            if tache.isChecked():
+                self.void_taskbox.erase_task(self.void_taskbox.get_all_tasks()[position])
+
+        self.void_taskbox.save_json()
+        self.Afficher_tache()
+        
 
         
         
