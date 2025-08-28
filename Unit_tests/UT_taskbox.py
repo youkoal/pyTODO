@@ -18,15 +18,33 @@ a_taskbox.add_new_task(a_second_task)
 a_taskbox.add_new_task(a_third_task)
 
 a_taskbox.check_task(a_second_task)
+a_taskbox.print_console()
+
+a_taskbox.Zcheck_task(a_second_task)
+a_taskbox.print_console()
+
+a_taskbox.Zcheck_task(a_second_task)
+a_taskbox.print_console()
+
+
+
+
 a_taskbox.save_json()
 
-
-
-a,b = a_taskbox.get_all_tasks()
-a.extend(b)
+print("\nAfter checking second task:")
 a_taskbox.print_console()
-a_taskbox.erase_task(a[0])
 
+all_tasks = a_taskbox.get_all_tasks_flat()
+print("\nAll Tasks 1by 1:")
+for task in all_tasks:
+    task.print_console()
+
+print("\nInitial Task Box:")
+a_taskbox.print_console()
+
+a_taskbox.erase_task(all_tasks[0])
+
+print("\nAfter erasing first task:")
 a_taskbox.print_console()
 #a_taskbox.print_console()
 

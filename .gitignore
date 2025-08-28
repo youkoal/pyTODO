@@ -1,6 +1,7 @@
 # Exclude all __pycache__ directories
 __pycache__/
 **/__pycache__/
+**/__pycache__/*
 
 # Exclude config.json anywhere in the project
 config.json
@@ -12,6 +13,5 @@ Data/
 
 *.pyc
 
-*.pyc
 config.json
 Data/tasks.json

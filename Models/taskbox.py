@@ -71,11 +71,13 @@ class taskbox:
     def uncheck_task(self, task):
         """Marks a task as not completed and moves it back to the todo list."""
         self._move_task_between_lists(task, self.__tasks_done, self.__tasks_todo)
-
-
-
-
-
+    
+    def Zcheck_task(self, task):
+        """Marks a task as completed and moves it to the done list."""
+        if task.task_status:
+            self._move_task_between_lists(task, self.__tasks_todo, self.__tasks_done)
+        else:
+            self._move_task_between_lists(task, self.__tasks_done, self.__tasks_todo)
 
     def set_title(self, title):
         self.__title = title
@@ -93,6 +95,9 @@ class taskbox:
 
     def get_all_tasks(self):
         return (self.__tasks_todo,self.__tasks_done)
+
+    def get_all_tasks_flat(self):
+        return self.__tasks_todo + self.__tasks_done
 
     def __repr__(self):
         return f"TaskBox({self.__title}, Todo: {len(self.__tasks_todo)}, Done: {len(self.__tasks_done)})"
