@@ -38,6 +38,7 @@ all_tasks = a_taskbox.get_all_tasks_flat()
 print("\nAll Tasks 1by 1:")
 for task in all_tasks:
     task.print_console()
+    print(all_tasks.index(task))
 
 print("\nInitial Task Box:")
 a_taskbox.print_console()

@@ -8,7 +8,7 @@ parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(parent_dir)
 
 from Models.taskbox import taskbox
-from Models.one_task_copy import one_task
+from Models.one_task import one_task
 
 
 class FenetreNewTask(QWidget):

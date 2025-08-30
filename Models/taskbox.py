@@ -15,8 +15,10 @@ class taskbox:
         __title (str): The title of the task box.
         Methods:
             add_new_task(task): Adds a new task to the task box.
+            erase_task(task) : Remove the selected task.
             check_task(task): Marks a task as completed and moves it to the done list.
             uncheck_task(task): Marks a task as not completed and moves it back to the todo list.
+            Zcheck_task(task) : Marks a task as completed and moves it to the done list.
             set_title(title): Sets the title of the task box.
             get_tasks_todo(): Returns the list of tasks that are yet to be completed.
             get_tasks_done(): Returns the list of tasks that have been completed.
