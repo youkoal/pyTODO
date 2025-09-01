@@ -20,6 +20,7 @@ class taskboxes :
         get_taskboxes(): Returns the list of taskboxes.
         save_json(): Saves all taskboxes to a JSON file.
         load_json(): Loads taskboxes from a JSON file.
+        to_json(): Converts the taskboxes to a JSON serializable format.
     """
     
     __task_boxes = []

@@ -68,3 +68,5 @@ def generate_test_data():
     taskboxes.add_taskbox(b_taskbox)
     taskboxes.add_taskbox(c_taskbox)
     taskboxes.save_json()
+
+print(taskboxes.get_taskboxes())
