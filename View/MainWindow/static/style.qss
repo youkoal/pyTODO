@@ -1,13 +1,15 @@
 /* Sets the background of the main window with an image,
   centered and scaled to cover the entire window */
-#MainWindow {
-    background: url("background.jpg") no-repeat center center fixed;        
+QMainWindow {
+    background-image: url("test.jpg");
+    background-repeat: no-repeat;
+    background-position: center;    
 }  
 
 /* Styles all QLabel elements with increased font size
   and weight for better visibility */
 QLabel {
-    font-size: 25px;
+    font-size: 10px;
     font-weight: 700; /* Bold */
 }
 

@@ -1,292 +1,17 @@
 import sys, os, json
 
-from PySide6.QtGui import QIcon, QAction
-from PySide6.QtWidgets import QDialog, QMainWindow, QGroupBox, QLabel, QVBoxLayout, QHBoxLayout, QWidget
-from PySide6.QtWidgets import QTextEdit,QPushButton, QCheckBox,QScrollArea, QLineEdit, QGridLayout
-from PySide6.QtCore import Qt
+from PySide6.QtGui import  QAction, QPainter, QPixmap
+from PySide6.QtWidgets import  QMainWindow, QVBoxLayout, QHBoxLayout, QWidget
+from PySide6.QtWidgets import QPushButton, QCheckBox,QScrollArea,  QGridLayout
+
 
 parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(parent_dir)
 
-from Models.taskbox import taskbox
-from Models.one_task import one_task
+
 from Models.taskboxes import taskboxes
+from View.Affichage_Taskbox import Affichage_Taskbox
 
-
-
-
-class FenetreNewTask(QWidget):
-    """
-    This "window" is a QWidget. If it has no parent,
-    it will appear as a free-floating window.
-    """
-    
-
-    def __init__(self, a_taskboxes):
-        super().__init__()
-
-        self.a_taskboxes = a_taskboxes
-        
-        #Parametre globaux de la fenetre
-        self.setWindowTitle("Nouvelle Tache")
-        self.resize(600,900)
-        self.void_taskbox = taskbox()
-        
-        
-        self.void_taskbox.set_title("Nouvelle Tache")
-        self.Modif = False
-
-        ###Bloc Titre (nom de la taskbox)
-        self.Titre_box = QGroupBox()
-
-        ## Layout du titre_box
-        self.Titre = QVBoxLayout(self.Titre_box)
-        self.BoxName = QLabel('Nom de la liste de tâches :')
-        self.NomTaskbox = QLineEdit()
-        self.Titre.addWidget(self.BoxName)
-        self.Titre.addWidget(self.NomTaskbox)
-
-        ###Bloc edition de tache (Nom et description des tâches)
-        self.Bloc_edit = QGroupBox()
-        self.Bloc_edit.setFixedSize(600,220)
-
-        ## Layout du bloc edition (nom et description de la tache)
-
-        ### Partie edition texte
-        self.Nom_Et_Desc = QVBoxLayout()
-        self.TaskName = QLabel("Nom de la tache :")
-        self.Task_N = QTextEdit()
-        self.TaskDesc = QLabel("Desc de la tache :")
-        self.Task_D = QTextEdit()
-        self.Nom_Et_Desc.addWidget(self.TaskName)
-        self.Nom_Et_Desc.addWidget(self.Task_N)
-        self.Nom_Et_Desc.addWidget(self.TaskDesc)
-        self.Nom_Et_Desc.addWidget(self.Task_D)
-
-        ### Partie bouton
-        ### Bouton nouvelle tâche
-        self.Bouton = QVBoxLayout()
-        self.Accepter = QPushButton("Nouvelle tâche")
-        self.Accepter.setDefault(True)
-        self.Bouton.addWidget(self.Accepter)
-
-        ### Bouton tache changer de repertoire (tache a faire <=> tache effectuées)
-        self.Change = QPushButton("Check/uncheck")
-        self.Change.setDefault(True)
-        self.Bouton.addWidget(self.Change)
-
-
-        ### Bouton tache supprimer
-        self.Suppress = QPushButton("Supprimer tâche(s)")
-        self.Suppress.setDefault(True)
-        self.Bouton.addWidget(self.Suppress)
-
-        ###Bouton pour sauvegarder la taskbox
-        self.Save = QPushButton("Sauvegarder la liste")
-        self.Save.setDefault(True)
-        self.Bouton.addWidget(self.Save)
-        
-
-        ### On réunis tout
-        self.layout_tot = QHBoxLayout(self.Bloc_edit)
-        self.layout_tot.addLayout(self.Nom_Et_Desc)
-        self.layout_tot.addLayout(self.Bouton)
-
-        # Fonctions affichage et connexions des boutons
-
-        ## On affiche dans la fenetre , appelle aussi affichage du bloc d'edition
-        self.Affichage()
-
-        ### Boutons accepter
-        self.Accepter.clicked.connect(self.Sauvegarder_tache)
-
-        ### Bouton pour changer entre tache a faire et tache faite
-        self.Change.clicked.connect(self.Check_uncheck)
-
-        ### Bouton pour supprimer une tache
-        self.Suppress.clicked.connect(self.Supprimer_tache)
-
-        ### Bouton pour sauvegarder la taskbox
-        self.Save.clicked.connect(self.SauvegarderTaskbox)
-
-
-
-    def Affichage(self):
-
-        
-        # Creation des deux dataset
-        dataTD = self.void_taskbox.get_tasks_todo()
-        dataD = self.void_taskbox.get_tasks_done()
-
-        #Longueur pour savoir si l'un est vide
-        Ntask_todo = len(dataTD)
-        Ntask_done = len(dataD)
-
-        #Création des box de scroll
-        self.Box_to_do = QScrollArea()
-        self.Box_to_do.setFixedSize(500,320)
-        self.widget_TODO = QWidget()
-        self.List_to_do = QVBoxLayout()
-        # Boucle de lecture du fichier json et création des checkboxs TODO
-        self.Checked_todo = []
-        if Ntask_todo !=0:
-
-            for tache in dataTD:
-
-                self.task = QCheckBox(tache.task_name)
-                self.desc = QLabel(tache.task_description)
-                self.Checked_todo.append(self.task)
-                
-
-                self.List_to_do.addWidget(self.task)
-                self.List_to_do.addWidget(self.desc)
-        else:
-            self.List_to_do.addWidget(QLabel("Aucune tâche en cours"))
-
-        self.widget_TODO.setLayout(self.List_to_do)
-
-        # Idem pour DONE
-        self.Box_check = QScrollArea()
-        self.Box_check.setFixedSize(500,320)
-        self.widget_check = QWidget()
-        self.List_check = QVBoxLayout()
-
-        #Idem pour DONE
-
-        self.Checked_done = []
-        if Ntask_done !=0:
-            for i in dataD:
-
-                self.task = QCheckBox(i.task_name)
-                self.desc = QLabel(i.task_description)
-                self.Checked_done.append(self.task)
-
-                self.List_check.addWidget(self.task)
-                self.List_check.addWidget(self.desc)
-        else:
-            self.List_check.addWidget(QLabel("Aucune tâche en cours"))
-
-        self.widget_check.setLayout(self.List_check)
-
-
-        
-
-        #Parametre scroll area
-        self.Box_to_do.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
-        self.Box_to_do.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.Box_to_do.setWidgetResizable(True)
-        self.Box_to_do.setWidget(self.widget_TODO)
-
-        self.Box_check.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
-        self.Box_check.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.Box_check.setWidgetResizable(True)
-        self.Box_check.setWidget(self.widget_check)
-
-        #Une fois le fichier lu , on déclenche la création de la fenetre
-        # et on supprime l'ancienne pour éviter les doublons
-                # On regroupe tout les widget affichés dans la fenetre
-        self._layoutNT = QVBoxLayout()
-        self._layoutNT.addWidget(self.Titre_box)
-        self._layoutNT.addWidget(self.Box_to_do)
-        self._layoutNT.addWidget(self.Box_check)
-        self._layoutNT.addWidget(self.Bloc_edit)
-        self.layoutNT = self._layoutNT
-        self.setLayout(self.layoutNT)
-        self._layoutNT.deleteLater()
-
-    ### Fonction des boutons
-    def Sauvegarder_tache(self):
-        ##Sauvegarde de la tache dans le json et rafraichit l'affichage
-        if self.Task_N.toPlainText() == "":
-            self.FenetreErreur("Veuillez nommer la tâche.")
-        elif self.Task_D.toPlainText() == "":
-            self.FenetreErreur("Veuillez décrire la tâche.")
-        else:
-             ##Sauvegarde de la tache dans le json et rafraichit l'affichage
-            A = one_task(self.Task_N.toPlainText(),self.Task_D.toPlainText())
-            self.void_taskbox.add_new_task(A)
-            self.void_taskbox.save_json() 
-            self.Task_N.clear()
-            self.Task_D.clear()
-            #Rafraichir l'affichage 
-            self.Affichage()
-
-    
-    def Check_uncheck(self):
-        #Fonction pour le bouton check/uncheck
-        toute_tache = self.Checked_todo + self.Checked_done
-        toute_tache_objet = self.void_taskbox.get_all_tasks_flat()
-        transition = []
-
-        for tache in toute_tache:
-
-            position = toute_tache.index(tache)
-
-            if tache.isChecked():
-                transition.append(toute_tache_objet[position])
-
-        for tache in transition:
-            self.void_taskbox.Zcheck_task(tache)
-
-        self.void_taskbox.save_json()
-        self.Affichage()  
-    
-    
-    def Supprimer_tache(self):
-        #Fonction pour le bouton supprimer tache
-        toute_tache = self.Checked_todo + self.Checked_done
-        toute_tache_objet = self.void_taskbox.get_all_tasks_flat()
-        trashbin =[]
-        for tache in toute_tache:
-            
-
-            position = toute_tache.index(tache)
-
-            if tache.isChecked():
-                trashbin.append(toute_tache_objet[position])
-            
-        for tache in trashbin:
-            self.void_taskbox.erase_task(tache)
-
-        self.void_taskbox.save_json()
-        self.Affichage()
-        
-    ### Sauvegarder le travail une fois terminé    
-    def SauvegarderTaskbox(self):
-        #Nommer la taskbox et sauvegarder
-        if self.NomTaskbox.text() != "":
-            
-            self.void_taskbox.set_title(self.NomTaskbox.text())
-
-            self.a_taskboxes.add_taskbox(self.void_taskbox)
-            self.a_taskboxes.save_json()
-            self.Task_N.clear()
-            self.Task_D.clear()
-            self.NomTaskbox.clear()
-            self.close()
-        else:
-            self.FenetreErreur("Veuillez nommer la liste de tâches avant de sauvegarder.")
-
-
-    def FenetreErreur(self, message):
-        
-
-        dlg = QDialog(self)
-        dlg.setWindowTitle("Erreur")
-        dlg.resize(200,100)
-        dlg_layout = QVBoxLayout()
-        dlg_label = QLabel(message)
-        dlg_button = QPushButton("OK")
-        dlg_button.clicked.connect(dlg.accept)
-        dlg_layout.addWidget(dlg_button)
-        dlg_layout.addWidget(dlg_label)
-        dlg.setLayout(dlg_layout)
-        dlg.exec()
-
-        
-        
-
-    
 
 
 class MaFenetre(QMainWindow):
@@ -302,7 +27,14 @@ class MaFenetre(QMainWindow):
 
         #Parametre de la fenetre
         self.setWindowTitle('ToDoListe')
-        self.resize(1000,1000)
+        self.resize(1200,800)
+        
+
+        ### Afficher un background
+        qss_path = os.path.join(parent_dir, "View/MainWindow/static/style.qss")
+        with open(qss_path, "r") as f:
+            self.setStyleSheet(f.read())
+        
 
         ## Appelle des fonctions initiales
         self.CreerAction()
@@ -359,7 +91,7 @@ class MaFenetre(QMainWindow):
 
 
         # Affichage de la box
-        self.window1 = FenetreNewTask(self.a_taskboxes)
+        self.window1 = Affichage_Taskbox(self.a_taskboxes)
         self.window1.show()
 
 
@@ -368,6 +100,7 @@ class MaFenetre(QMainWindow):
         # Selection de la taskbox a ouvrir dans une liste
         ## Chargement de la liste des taskbox
         Liste_Box = self.a_taskboxes.get_taskboxes()
+        
 
 
         #Creation du menu de selection
@@ -426,27 +159,53 @@ class MaFenetre(QMainWindow):
 
         Layout_taskbox = QGridLayout()
         
+        
 
         Taskbox_selectionnee = []
         for box in self.Checked_taskbox:
             position = self.Checked_taskbox.index(box)
             if box.isChecked():
                 Taskbox_selectionnee.append(Liste_Box[position])
+                
 
 
 
         #On affiche la taskbox selectionnée
+        i=0
+        j=0
+        z=0
+
 
         for box in Taskbox_selectionnee:
-            print(Taskbox_selectionnee)
-            if len(Taskbox_selectionnee) >1:
-                print("erreur")
+            
+            widget = Affichage_Taskbox(self.a_taskboxes)
+            widget.setFixedSize(400,400)
+            widget.void_taskbox = box
+            widget.NomTaskbox.setText(box.get_title())
+            widget.Modif = False
+            widget.Affichage()
+            
 
-            Titre = QLabel(box.get_title())
-            Layout_taskbox.addWidget(Titre)
+            scroll = QScrollArea()
+            scroll.setWidgetResizable(True)
+            scroll.setWidget(widget)
+            Layout_taskbox.addWidget(scroll,i,z)
+            if z == 1 :
+                i+=1
+                j-=2
+            
+            j += 1
+            z = j % 2
+            
 
 
                 
         self.AfficherFenetre()
         self.Layout_relais.addLayout(Layout_taskbox)
-        
+
+    def paintEvent(self, event):
+        super().paintEvent(event)
+        painter = QPainter(self)
+        pixmap = QPixmap(os.path.join(parent_dir, "View/MainWindow/static/test.jpg"))
+        painter.drawPixmap(self.rect(), pixmap)
+
