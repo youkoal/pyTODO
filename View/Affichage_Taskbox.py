@@ -1,5 +1,6 @@
 import sys, os
 
+from PySide6.QtGui import   QPainter, QPixmap
 from PySide6.QtWidgets import QDialog, QGroupBox, QLabel, QVBoxLayout, QHBoxLayout, QWidget
 from PySide6.QtWidgets import QPushButton, QCheckBox,QScrollArea, QLineEdit
 from PySide6.QtCore import Qt
@@ -9,6 +10,7 @@ sys.path.append(parent_dir)
 
 from Models.taskbox import taskbox
 from Models.one_task import one_task
+from View.MyScrollArea import MyScrollArea_TD, MyScrollArea_Done
 
 
 
@@ -24,6 +26,9 @@ class Affichage_Taskbox(QWidget):
 
     def __init__(self, a_taskboxes):
         super().__init__()
+
+        with open(os.path.join(parent_dir, "View/MainWindow/static/style.qss"), "r") as f:
+            self.setStyleSheet(f.read())
 
         self.a_taskboxes = a_taskboxes
         
@@ -53,7 +58,7 @@ class Affichage_Taskbox(QWidget):
         
 
         ### Bouton pour sauvegarder la taskbox
-        
+
 
 
 
@@ -134,10 +139,13 @@ class Affichage_Taskbox(QWidget):
         Ntask_done = len(dataD)
 
         #Création des box de scroll
-        self.Box_to_do = QScrollArea()
+        self.Box_to_do = MyScrollArea_TD()
         self.Box_to_do.setMinimumSize(50,50)
+        self.Box_to_do.setObjectName("Box_to_do")
         self.widget_TODO = QWidget()
+        self.widget_TODO.setObjectName("widget_TODO")
         self.List_to_do = QVBoxLayout()
+        
         # Boucle de lecture du fichier json et création des checkboxs TODO
         self.Checked_todo = []
         if Ntask_todo !=0:
@@ -146,6 +154,7 @@ class Affichage_Taskbox(QWidget):
 
                 self.task = QCheckBox(tache.task_name)
                 self.desc = QLabel(tache.task_description)
+                self.desc.setObjectName("desc")
                 self.Checked_todo.append(self.task)
                 
 
@@ -153,13 +162,16 @@ class Affichage_Taskbox(QWidget):
                 self.List_to_do.addWidget(self.desc)
         else:
             self.List_to_do.addWidget(QLabel("Aucune tâche en cours"))
+            self.setObjectName("desc")
 
         self.widget_TODO.setLayout(self.List_to_do)
 
         # Idem pour DONE
-        self.Box_check = QScrollArea()
+        self.Box_check = MyScrollArea_Done()
+        self.Box_check.setObjectName("Box_Check")
         self.Box_check.setMinimumSize(50,50)
         self.widget_check = QWidget()
+        self.widget_check.setObjectName("widget_check")
         self.List_check = QVBoxLayout()
 
         #Idem pour DONE

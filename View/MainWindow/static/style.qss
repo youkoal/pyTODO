@@ -10,8 +10,16 @@ QMainWindow {
   and weight for better visibility */
 QLabel {
     font-size: 10px;
-    font-weight: 700; /* Bold */
+    font-weight: 1000; /* Bold */
 }
+QLabel#desc {
+    font-size: 15px;
+    font-weight: 1000; /* Bold */
+}
+QCheckBox {
+    font-size: 15px;
+    font-weight: 1000; /* Bold */
+} 
 
 /* Styles QLineEdit elements for a modern, minimalistic appearance */
 QLineEdit {
@@ -83,9 +91,21 @@ QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
   border: none;
   background: none;
 }
-#List_to_do{
-    background: url("LofyWorking.jpg");
-    background-repeat: no-repeat;
-    background-position: center;  
-    
+/* QScrollArea#Box_to_do { */
+    /* background: url("LofyWorking.jpg"); */
+    /* background-repeat: no-repeat; */
+    /* background-position: center;   */
+    /*  */
+/* } */
+QWidget#widget_TODO {
+    background : transparent ;
+}
+/* QScrollArea#Box_Check { */
+    /* background: url("LofiDone.jpg"); */
+    /* background-repeat: no-repeat; */
+    /* background-position: center;   */
+    /*  */
+/* } */
+QWidget#widget_check {
+    background : transparent ;
 }

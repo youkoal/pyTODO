@@ -24,6 +24,13 @@ class MaFenetre(QMainWindow):
         self.a_taskboxes.load_json()
 
         super().__init__()
+        qss_path = os.path.join(os.path.dirname(__file__), "MainWindow", "static", "style.qss")
+        if os.path.exists(qss_path):
+            with open(qss_path, "r") as f:
+                self.setStyleSheet(f.read())
+        else:
+            print("QSS file not found:", qss_path)
+        
 
         #Parametre de la fenetre
         self.setWindowTitle('ToDoListe')
@@ -158,6 +165,7 @@ class MaFenetre(QMainWindow):
         self.Layout_relais.deleteLater()
 
         Layout_taskbox = QGridLayout()
+        Layout_taskbox.setSizeConstraint
         
         
 
@@ -179,7 +187,7 @@ class MaFenetre(QMainWindow):
         for box in Taskbox_selectionnee:
             
             widget = Affichage_Taskbox(self.a_taskboxes)
-            widget.setFixedSize(400,400)
+            
             widget.void_taskbox = box
             widget.NomTaskbox.setText(box.get_title())
             widget.Modif = False
@@ -188,6 +196,8 @@ class MaFenetre(QMainWindow):
 
             scroll = QScrollArea()
             scroll.setWidgetResizable(True)
+            scroll.setMinimumSize(200,200)
+            scroll.setMaximumSize(400,400)
             scroll.setWidget(widget)
             Layout_taskbox.addWidget(scroll,i,z)
             if z == 1 :
