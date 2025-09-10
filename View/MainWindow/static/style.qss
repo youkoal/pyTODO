@@ -83,3 +83,9 @@ QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
   border: none;
   background: none;
 }
+#List_to_do{
+    background: url("LofyWorking.jpg");
+    background-repeat: no-repeat;
+    background-position: center;  
+    
+}
